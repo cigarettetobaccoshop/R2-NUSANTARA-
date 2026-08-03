@@ -1,0 +1,62 @@
+/* Custom Properties & Tailwind Overrides */
+:root {
+    --brand-primary: #6b46c1;
+    --brand-hover: #553c9a;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+}
+
+/* Dark Mode Variables */
+.dark-mode {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+}
+
+body {
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-tap-highlight-color: transparent;
+}
+
+body.dark-mode {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+/* Typography Enhancements */
+.premium-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Dark Mode Utilities (Manual mapping for elements without Tailwind dark: classes) */
+.dark-mode .dark-text { color: var(--text-main); }
+.dark-mode .dark-sidebar { background-color: var(--bg-card); border-color: var(--border-color); }
+.dark-mode .dark-bg-footer { background-color: #0f172a; }
+.dark-mode .dark-input { background-color: var(--bg-body); border-color: var(--border-color); color: var(--text-main); }
+
+/* Glassmorphism Header */
+.glass-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.dark-mode .glass-header {
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Bottom Nav Padding Fix for iOS */
+.pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+.active-nav {
+    color: var(--brand-primary);
+}
+
+/* Utils */
+.bg-brand-primary { background-color: var(--brand-primary); }
+.text-brand-primary { color: var(--brand-primary); }
