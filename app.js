@@ -1,10 +1,12 @@
 /* ============================================
-   R2 NUSANTARA — MAIN APPLICATION (Enhanced)
+   R2 NUSANTARA — MAIN APPLICATION (Enhanced with Product Image Placeholders)
    ============================================ */
 (function () {
   'use strict';
 
-  // Dark mode
+  /* ============================================
+     0. DARK MODE — terapkan sedini mungkin agar tidak "flash"
+     ============================================ */
   (function applyStoredDarkMode() {
     var stored = localStorage.getItem('r2_dark_mode');
     var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -21,7 +23,41 @@
     if (icon) icon.className = isDark ? 'fa-solid fa-sun text-[13px] sm:text-sm' : 'fa-solid fa-moon text-[13px] sm:text-sm';
   };
 
-  // Global state
+  /* ============================================
+     1. SMART CONTEXT UNTUK CHATBOT
+     ============================================ */
+  window.R2Context = {
+    init: function () {
+      this.device = /Mobile|Android|iP(hone|od|ad)/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+      this.language = navigator.language || navigator.userLanguage;
+      this.referrer = document.referrer || 'Direct';
+      this.isReturning = localStorage.getItem('r2_visited') ? true : false;
+      localStorage.setItem('r2_visited', 'true');
+    },
+    getCartSummary: function () {
+      if (!window.__cart) return 'Keranjang Kosong';
+      var total = window.__cart.reduce(function (s, i) { return s + i.qty; }, 0);
+      return total + ' Slop';
+    }
+  };
+  window.R2Context.init();
+
+  window.chtlConfig = { chatbotId: "4136889914" };
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var script = document.createElement('script');
+      script.async = true;
+      script.dataset.id = "4136889914";
+      script.id = "chtl-script";
+      script.type = "text/javascript";
+      script.src = "https://chatling.ai/js/embed.js";
+      document.body.appendChild(script);
+    }, 3000);
+  });
+
+  /* ============================================
+     2. STATE GLOBAL
+     ============================================ */
   var cart = [];
   try { cart = JSON.parse(localStorage.getItem('r2_cart')) || []; } catch (e) { cart = []; }
   window.__cart = cart;
@@ -35,9 +71,11 @@
   var activeFilter = 'all';
   var activeSort = 'name-asc';
   var searchTerm = '';
-  var viewMode = 'grid';
+  var viewMode = 'grid'; // 'grid' | 'table' (mode B2B)
 
-  // Utilities
+  /* ============================================
+     3. UTILITIES
+     ============================================ */
   function formatRupiah(n) {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
   }
@@ -78,7 +116,9 @@
     try { localStorage.setItem('r2_wishlist', JSON.stringify(wishlist)); } catch (e) { /* storage unavailable */ }
   }
 
-  // Animated counters
+  /* ============================================
+     3b. ANIMATED STAT COUNTERS (scroll-triggered)
+     ============================================ */
   function animateCounter(el) {
     var target = parseInt(el.getAttribute('data-count-to'), 10);
     if (isNaN(target)) return;
@@ -96,7 +136,9 @@
     requestAnimationFrame(step);
   }
 
-  // Catalog functions (unchanged but with minor enhancements)
+  /* ============================================
+     4. KATALOG — FILTER / SORT / SEARCH
+     ============================================ */
   window.switchCatalog = function (cat) {
     if (cat !== 'r2' && cat !== 'resmi') return;
     activeCatalog = cat;
@@ -183,6 +225,32 @@
       : '<button onclick="window.__addCart(\'' + p.id + '\')" class="w-full mt-4 py-3 bg-ivory text-deep font-bold rounded-xl hover:bg-deep hover:text-white transition-colors text-sm flex items-center justify-center gap-2 border border-slate-200"><i class="fa-solid fa-plus text-xs"></i> Tambah</button>';
   }
 
+  /* ============================================
+     PRODUCT IMAGE PLACEHOLDER GENERATOR
+     ============================================ */
+  function generateProductPlaceholder(name, size) {
+    // size: 'small' (for table), 'medium' (for grid)
+    var width = size === 'small' ? 40 : 120;
+    var height = size === 'small' ? 40 : 90;
+    var fontSize = size === 'small' ? 10 : 16;
+    var gradient = size === 'small' 
+      ? 'linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%)'
+      : 'linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%)';
+    var textColor = size === 'small' ? '#1e40af' : '#1e3a5f';
+    var safeName = escapeHtml(name);
+    return '<svg width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="' + width + '" height="' + height + '" fill="url(#grad)" rx="6"/>' +
+      '<defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">' +
+      '<stop offset="0%" stop-color="#eff6ff"/>' +
+      '<stop offset="100%" stop-color="#bfdbfe"/>' +
+      '</linearGradient></defs>' +
+      '<text x="' + (width/2) + '" y="' + (height/2) + '" font-family="Geist, sans-serif" font-size="' + fontSize + '" font-weight="700" fill="' + textColor + '" text-anchor="middle" dominant-baseline="middle">' + safeName + '</text>' +
+      '</svg>';
+  }
+
+  /* ============================================
+     PRODUCT CARD & ROW BUILDERS (with placeholders)
+     ============================================ */
   function buildProductCardHTML(p, idx) {
     var isResmi = p.category === 'resmi';
     var badge = '';
@@ -205,9 +273,16 @@
       '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" class="wishlist-heart-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart text-xs"></i></button>' +
       '<button onclick="openQuickView(\'' + p.id + '\')" class="quickview-btn" aria-label="Lihat Cepat"><i class="fa-solid fa-eye text-xs"></i></button>' +
       '</div>';
+    
+    // Placeholder image
+    var placeholder = '<div class="product-image-placeholder mb-4 rounded-xl overflow-hidden w-full aspect-[4/3]">' +
+      generateProductPlaceholder(p.name, 'medium') +
+      '</div>';
+
     return '<div class="bg-white dark:bg-transparent rounded-3xl p-6 border border-slate-200 card-premium card-glow relative overflow-hidden flex flex-col justify-between group card-enter' + (isResmi ? ' product-card-resmi' : '') + '" style="animation-delay:' + (idx * 40) + 'ms" data-pid="' + p.id + '">' +
       actions +
-      '<div class="relative z-10"><div class="flex justify-between items-start mb-4 gap-2 pr-16">' + badge + '<div class="flex flex-col items-end gap-1 shrink-0">' + catIndicator + '<span class="text-slate-300 text-[10px] font-mono font-bold">' + p.id.toUpperCase() + '</span></div></div>' +
+      placeholder +
+      '<div class="relative z-10"><div class="flex justify-between items-start mb-4 gap-2">' + badge + '<div class="flex flex-col items-end gap-1 shrink-0">' + catIndicator + '<span class="text-slate-300 text-[10px] font-mono font-bold">' + p.id.toUpperCase() + '</span></div></div>' +
       '<h3 class="text-lg font-serif font-bold text-deep dark:text-white leading-tight mb-1 group-hover:text-gold transition-colors">' + escapeHtml(p.name) + '</h3>' +
       (isResmi ? '<p class="text-[10px] text-slate-500 font-medium mb-2 italic">' + escapeHtml(p.segmentName) + '</p>' : '') +
       '<p class="text-2xl font-black text-deep dark:text-white font-mono tracking-tighter">' + formatRupiah(p.price) + '<span class="text-[10px] text-slate-400 font-sans font-medium ml-1">/slop</span></p></div>' +
@@ -220,8 +295,16 @@
     var catBadge = isResmi
       ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI ' + (p.segment ? '· SEG ' + p.segment : '') + '</span>'
       : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep bg-deep/5 px-2 py-0.5 rounded-md border border-deep/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
+    
+    // Thumbnail placeholder
+    var thumbnail = '<div class="product-thumbnail mr-3 shrink-0 rounded-lg overflow-hidden">' +
+      generateProductPlaceholder(p.name, 'small') +
+      '</div>';
+
     return '<div class="product-table-row' + (isResmi ? ' is-resmi' : '') + '" style="animation-delay:' + (idx * 25) + 'ms" data-pid="' + p.id + '">' +
-      '<div class="flex items-center gap-3 min-w-0"><div class="pt-icon"><i class="fa-solid fa-' + (isResmi ? 'certificate' : 'fire-flame-curved') + '"></i></div><div class="min-w-0"><div class="pt-name truncate">' + escapeHtml(p.name) + '</div><div class="mt-1">' + catBadge + '</div></div></div>' +
+      '<div class="flex items-center gap-3 min-w-0">' +
+      thumbnail +
+      '<div class="min-w-0"><div class="pt-name truncate">' + escapeHtml(p.name) + '</div><div class="mt-1">' + catBadge + '</div></div></div>' +
       '<div class="pt-price">' + formatRupiah(p.price) + '</div>' +
       '<div class="text-[11px] font-bold text-slate-500 hidden md:block">' + p.id.toUpperCase() + '</div>' +
       '<div class="pt-actions flex items-center justify-end gap-2">' +
@@ -334,7 +417,9 @@
     renderProductDisplay();
   };
 
-  // View mode
+  /* ============================================
+     5. MODE TAMPILAN — GRID vs TABEL B2B
+     ============================================ */
   window.setViewMode = function (mode) {
     if (mode !== 'grid' && mode !== 'table') return;
     viewMode = mode;
@@ -345,7 +430,9 @@
     renderProductDisplay();
   };
 
-  // Wishlist
+  /* ============================================
+     6. WISHLIST
+     ============================================ */
   window.toggleWishlistItem = function (id, event) {
     if (event) event.stopPropagation();
     var index = wishlist.indexOf(id);
@@ -393,7 +480,9 @@
     }
   };
 
-  // Quick View
+  /* ============================================
+     7. QUICK VIEW MODAL
+     ============================================ */
   window.openQuickView = function (id) {
     var p = allProducts.find(function (x) { return x.id === id; });
     if (!p) return;
@@ -441,7 +530,9 @@
     document.body.style.overflow = '';
   };
 
-  // Live visitor counter
+  /* ============================================
+     8. LIVE VISITOR COUNTER
+     ============================================ */
   function initVisitorCounter() {
     var el = document.getElementById('visitorCount');
     if (!el) return;
@@ -454,7 +545,9 @@
     }, 4000);
   }
 
-  // Cart functions (unchanged but with enhanced UI)
+  /* ============================================
+     9. KERANJANG (dengan localStorage — anti hilang saat refresh)
+     ============================================ */
   window.__addCart = function (id) {
     var p = allProducts.find(function (x) { return x.id === id; });
     if (!p) return;
@@ -546,7 +639,9 @@
     }
   };
 
-  // Checkout (unchanged)
+  /* ============================================
+     10. CHECKOUT MODAL + VALIDASI
+     ============================================ */
   window.openCheckoutModal = function () {
     toggleCart();
     setTimeout(function () {
@@ -701,7 +796,9 @@
     }, 1500);
   };
 
-  // Review
+  /* ============================================
+     11. REVIEW MODAL
+     ============================================ */
   window.openReviewModal = function () {
     var o = document.getElementById('reviewModalOverlay');
     var m = document.getElementById('reviewModal');
@@ -754,13 +851,17 @@
     }, 1000);
   };
 
-  // Newsletter
+  /* ============================================
+     12. NEWSLETTER
+     ============================================ */
   window.handleNewsletterSubmit = function (form) {
     var input = form.querySelector('input[type="email"]');
     if (input && input.value) { showToast('Terima kasih! Anda telah berlangganan newsletter.'); input.value = ''; }
   };
 
-  // Initialization
+  /* ============================================
+     13. INISIALISASI
+     ============================================ */
   document.addEventListener('DOMContentLoaded', function () {
     var loader = document.getElementById('loader');
     if (loader) {
@@ -824,7 +925,7 @@
       }
     });
 
-    // Search
+    // ---- Pencarian dengan autocomplete (debounced, satu listener) ----
     var searchInput = document.getElementById('searchInput');
     var suggestionsBox = document.getElementById('searchSuggestions');
     if (searchInput) {
@@ -890,7 +991,7 @@
       }
     }
 
-    // Checkout form events
+    // ---- Checkout form wiring ----
     var formInputs = document.querySelectorAll('#checkoutFormFull input, #checkoutFormFull textarea, #checkoutFormFull select');
     formInputs.forEach(function (input, index) {
       input.addEventListener('keydown', function (e) {
@@ -929,7 +1030,7 @@
       if (q && q.classList.contains('modal-enter')) closeQuickView();
     });
 
-    // Testimonial slider
+    // ---- Testimonial slider ----
     var slider = document.getElementById('testimonialSlider');
     var prevBtn = document.getElementById('sliderPrevBtn');
     var nextBtn = document.getElementById('sliderNextBtn');
