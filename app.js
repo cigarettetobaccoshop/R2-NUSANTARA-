@@ -1,15 +1,10 @@
 /* ============================================
-   R2 NUSANTARA — MAIN APPLICATION
-   Katalog, Keranjang (localStorage), Checkout,
-   Wishlist, Quick View, Dark Mode, Mode Tabel B2B,
-   Pencarian Autocomplete, Testimoni, Ulasan.
+   R2 NUSANTARA — MAIN APPLICATION (Enhanced)
    ============================================ */
 (function () {
   'use strict';
 
-  /* ============================================
-     0. DARK MODE — terapkan sedini mungkin agar tidak "flash"
-     ============================================ */
+  // Dark mode
   (function applyStoredDarkMode() {
     var stored = localStorage.getItem('r2_dark_mode');
     var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -26,41 +21,7 @@
     if (icon) icon.className = isDark ? 'fa-solid fa-sun text-[13px] sm:text-sm' : 'fa-solid fa-moon text-[13px] sm:text-sm';
   };
 
-  /* ============================================
-     1. SMART CONTEXT UNTUK CHATBOT
-     ============================================ */
-  window.R2Context = {
-    init: function () {
-      this.device = /Mobile|Android|iP(hone|od|ad)/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
-      this.language = navigator.language || navigator.userLanguage;
-      this.referrer = document.referrer || 'Direct';
-      this.isReturning = localStorage.getItem('r2_visited') ? true : false;
-      localStorage.setItem('r2_visited', 'true');
-    },
-    getCartSummary: function () {
-      if (!window.__cart) return 'Keranjang Kosong';
-      var total = window.__cart.reduce(function (s, i) { return s + i.qty; }, 0);
-      return total + ' Slop';
-    }
-  };
-  window.R2Context.init();
-
-  window.chtlConfig = { chatbotId: "4136889914" };
-  window.addEventListener('load', function () {
-    setTimeout(function () {
-      var script = document.createElement('script');
-      script.async = true;
-      script.dataset.id = "4136889914";
-      script.id = "chtl-script";
-      script.type = "text/javascript";
-      script.src = "https://chatling.ai/js/embed.js";
-      document.body.appendChild(script);
-    }, 3000);
-  });
-
-  /* ============================================
-     2. STATE GLOBAL
-     ============================================ */
+  // Global state
   var cart = [];
   try { cart = JSON.parse(localStorage.getItem('r2_cart')) || []; } catch (e) { cart = []; }
   window.__cart = cart;
@@ -74,11 +35,9 @@
   var activeFilter = 'all';
   var activeSort = 'name-asc';
   var searchTerm = '';
-  var viewMode = 'grid'; // 'grid' | 'table' (mode B2B)
+  var viewMode = 'grid';
 
-  /* ============================================
-     3. UTILITIES
-     ============================================ */
+  // Utilities
   function formatRupiah(n) {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
   }
@@ -102,8 +61,8 @@
     var c = document.getElementById('toast-container');
     if (!c) return;
     var to = document.createElement('div');
-    var iconClass = type === 'success' ? 'fa-check-circle text-emerald-400' : type === 'error' ? 'fa-circle-exclamation text-red-400' : 'fa-circle-info text-brand-400';
-    to.className = 'bg-brand-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 transform translate-x-full transition-transform duration-300 border border-white/10 modal-hardware';
+    var iconClass = type === 'success' ? 'fa-check-circle text-gold' : type === 'error' ? 'fa-circle-exclamation text-red-400' : 'fa-circle-info text-brand-400';
+    to.className = 'bg-deep text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 transform translate-x-full transition-transform duration-300 border border-white/10 modal-hardware';
     to.innerHTML = '<i class="fa-solid ' + iconClass + '"></i><span class="font-bold text-xs">' + m + '</span>';
     c.appendChild(to);
     setTimeout(function () { to.classList.remove('translate-x-full'); }, 10);
@@ -119,9 +78,7 @@
     try { localStorage.setItem('r2_wishlist', JSON.stringify(wishlist)); } catch (e) { /* storage unavailable */ }
   }
 
-  /* ============================================
-     3b. ANIMATED STAT COUNTERS (scroll-triggered)
-     ============================================ */
+  // Animated counters
   function animateCounter(el) {
     var target = parseInt(el.getAttribute('data-count-to'), 10);
     if (isNaN(target)) return;
@@ -139,9 +96,7 @@
     requestAnimationFrame(step);
   }
 
-  /* ============================================
-     4. KATALOG — FILTER / SORT / SEARCH
-     ============================================ */
+  // Catalog functions (unchanged but with minor enhancements)
   window.switchCatalog = function (cat) {
     if (cat !== 'r2' && cat !== 'resmi') return;
     activeCatalog = cat;
@@ -186,18 +141,18 @@
     if (!container) return;
     if (activeCatalog === 'r2') {
       container.innerHTML =
-        '<button onclick="applyFilter(\'all\')" id="chip-all" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-brand-900 text-white shadow-md">Semua</button>' +
-        '<button onclick="applyFilter(\'hemat\')" id="chip-hemat" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-emerald-300 hover:text-emerald-600"><i class="fa-solid fa-piggy-bank text-[10px]"></i> Hemat</button>' +
-        '<button onclick="applyFilter(\'populer\')" id="chip-populer" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-brand-300 hover:text-brand-600"><i class="fa-solid fa-fire text-[10px]"></i> Populer</button>' +
-        '<button onclick="applyFilter(\'premium\')" id="chip-premium" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-violet-300 hover:text-violet-600"><i class="fa-solid fa-crown text-[10px]"></i> Premium</button>';
+        '<button onclick="applyFilter(\'all\')" id="chip-all" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-deep text-white shadow-md">Semua</button>' +
+        '<button onclick="applyFilter(\'hemat\')" id="chip-hemat" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-piggy-bank text-[10px]"></i> Hemat</button>' +
+        '<button onclick="applyFilter(\'populer\')" id="chip-populer" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-fire text-[10px]"></i> Populer</button>' +
+        '<button onclick="applyFilter(\'premium\')" id="chip-premium" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-crown text-[10px]"></i> Premium</button>';
     } else {
       container.innerHTML =
-        '<button onclick="applyFilter(\'all\')" id="chip-all" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-brand-900 text-white shadow-md">Semua</button>' +
-        '<button onclick="applyFilter(\'segA\')" id="chip-segA" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-amber-300 hover:text-amber-700"><i class="fa-solid fa-gem text-[10px]"></i> Segmen A</button>' +
-        '<button onclick="applyFilter(\'segB\')" id="chip-segB" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-blue-300 hover:text-blue-700"><i class="fa-solid fa-star text-[10px]"></i> Segmen B</button>' +
-        '<button onclick="applyFilter(\'segC\')" id="chip-segC" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-emerald-300 hover:text-emerald-700"><i class="fa-solid fa-leaf text-[10px]"></i> Segmen C</button>' +
-        '<button onclick="applyFilter(\'segD\')" id="chip-segD" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-pink-300 hover:text-pink-700"><i class="fa-solid fa-globe text-[10px]"></i> Segmen D</button>' +
-        '<button onclick="applyFilter(\'segE\')" id="chip-segE" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-indigo-300 hover:text-indigo-700"><i class="fa-solid fa-hand-holding-heart text-[10px]"></i> Segmen E</button>';
+        '<button onclick="applyFilter(\'all\')" id="chip-all" class="filter-chip px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-deep text-white shadow-md">Semua</button>' +
+        '<button onclick="applyFilter(\'segA\')" id="chip-segA" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-gem text-[10px]"></i> Segmen A</button>' +
+        '<button onclick="applyFilter(\'segB\')" id="chip-segB" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-star text-[10px]"></i> Segmen B</button>' +
+        '<button onclick="applyFilter(\'segC\')" id="chip-segC" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-leaf text-[10px]"></i> Segmen C</button>' +
+        '<button onclick="applyFilter(\'segD\')" id="chip-segD" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-globe text-[10px]"></i> Segmen D</button>' +
+        '<button onclick="applyFilter(\'segE\')" id="chip-segE" class="filter-chip filter-chip-resmi px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:border-gold hover:text-gold"><i class="fa-solid fa-hand-holding-heart text-[10px]"></i> Segmen E</button>';
     }
   }
 
@@ -224,8 +179,8 @@
   function buildCardActions(p) {
     var q = getCartQty(p.id);
     return q > 0
-      ? '<div class="flex items-center justify-between border-2 border-brand-500 rounded-xl bg-brand-50 dark:bg-brand-900/20 p-1 mt-4 stepper-enter"><button onclick="window.__updateQty(\'' + p.id + '\',-1)" class="w-9 h-9 rounded-lg bg-white text-brand-600 font-bold shadow-sm hover:bg-slate-50 active:scale-95 transition-transform">-</button><span class="font-bold text-brand-900 dark:text-white">' + q + '</span><button onclick="window.__updateQty(\'' + p.id + '\',1)" class="w-9 h-9 rounded-lg bg-brand-500 text-white font-bold shadow-sm hover:bg-brand-600 active:scale-95 transition-transform">+</button></div>'
-      : '<button onclick="window.__addCart(\'' + p.id + '\')" class="w-full mt-4 py-3 bg-slate-100 text-brand-900 font-bold rounded-xl hover:bg-brand-900 hover:text-white transition-colors text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Tambah</button>';
+      ? '<div class="flex items-center justify-between border-2 border-gold rounded-xl bg-gold/5 p-1 mt-4 stepper-enter"><button onclick="window.__updateQty(\'' + p.id + '\',-1)" class="w-9 h-9 rounded-lg bg-white text-deep font-bold shadow-sm hover:bg-slate-50 active:scale-95 transition-transform">-</button><span class="font-bold text-deep dark:text-white">' + q + '</span><button onclick="window.__updateQty(\'' + p.id + '\',1)" class="w-9 h-9 rounded-lg bg-gold text-white font-bold shadow-sm hover:bg-gold/80 active:scale-95 transition-transform">+</button></div>'
+      : '<button onclick="window.__addCart(\'' + p.id + '\')" class="w-full mt-4 py-3 bg-ivory text-deep font-bold rounded-xl hover:bg-deep hover:text-white transition-colors text-sm flex items-center justify-center gap-2 border border-slate-200"><i class="fa-solid fa-plus text-xs"></i> Tambah</button>';
   }
 
   function buildProductCardHTML(p, idx) {
@@ -244,7 +199,7 @@
     }
     var catIndicator = isResmi
       ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI</span>'
-      : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2</span>';
+      : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep bg-deep/5 px-2 py-0.5 rounded-md border border-deep/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2</span>';
     var wl = isWishlisted(p.id);
     var actions = '<div class="absolute top-4 right-4 z-20 flex flex-col gap-2">' +
       '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" class="wishlist-heart-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart text-xs"></i></button>' +
@@ -253,9 +208,9 @@
     return '<div class="bg-white dark:bg-transparent rounded-3xl p-6 border border-slate-200 card-premium card-glow relative overflow-hidden flex flex-col justify-between group card-enter' + (isResmi ? ' product-card-resmi' : '') + '" style="animation-delay:' + (idx * 40) + 'ms" data-pid="' + p.id + '">' +
       actions +
       '<div class="relative z-10"><div class="flex justify-between items-start mb-4 gap-2 pr-16">' + badge + '<div class="flex flex-col items-end gap-1 shrink-0">' + catIndicator + '<span class="text-slate-300 text-[10px] font-mono font-bold">' + p.id.toUpperCase() + '</span></div></div>' +
-      '<h3 class="text-lg font-extrabold text-brand-900 dark:text-white leading-tight mb-1 group-hover:text-brand-500 transition-colors">' + escapeHtml(p.name) + '</h3>' +
+      '<h3 class="text-lg font-serif font-bold text-deep dark:text-white leading-tight mb-1 group-hover:text-gold transition-colors">' + escapeHtml(p.name) + '</h3>' +
       (isResmi ? '<p class="text-[10px] text-slate-500 font-medium mb-2 italic">' + escapeHtml(p.segmentName) + '</p>' : '') +
-      '<p class="text-2xl font-black text-brand-900 dark:text-white font-mono tracking-tighter">' + formatRupiah(p.price) + '<span class="text-[10px] text-slate-400 font-sans font-medium ml-1">/slop</span></p></div>' +
+      '<p class="text-2xl font-black text-deep dark:text-white font-mono tracking-tighter">' + formatRupiah(p.price) + '<span class="text-[10px] text-slate-400 font-sans font-medium ml-1">/slop</span></p></div>' +
       '<div class="relative z-10">' + buildCardActions(p) + '</div></div>';
   }
 
@@ -264,7 +219,7 @@
     var wl = isWishlisted(p.id);
     var catBadge = isResmi
       ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI ' + (p.segment ? '· SEG ' + p.segment : '') + '</span>'
-      : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
+      : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep bg-deep/5 px-2 py-0.5 rounded-md border border-deep/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
     return '<div class="product-table-row' + (isResmi ? ' is-resmi' : '') + '" style="animation-delay:' + (idx * 25) + 'ms" data-pid="' + p.id + '">' +
       '<div class="flex items-center gap-3 min-w-0"><div class="pt-icon"><i class="fa-solid fa-' + (isResmi ? 'certificate' : 'fire-flame-curved') + '"></i></div><div class="min-w-0"><div class="pt-name truncate">' + escapeHtml(p.name) + '</div><div class="mt-1">' + catBadge + '</div></div></div>' +
       '<div class="pt-price">' + formatRupiah(p.price) + '</div>' +
@@ -302,7 +257,6 @@
     } else {
       if (tableWrap) tableWrap.classList.add('hidden');
       if (gridEl) { gridEl.classList.remove('hidden'); gridEl.innerHTML = pp.map(function (p, idx) { return buildProductCardHTML(p, idx); }).join(''); }
-      // hover glow effect (mouse-follow radial gradient)
       if (gridEl) {
         gridEl.querySelectorAll('.card-glow').forEach(function (c) {
           c.addEventListener('mousemove', function (e) {
@@ -337,7 +291,7 @@
     if (tp <= 1) { c.innerHTML = ''; return; }
     var h = '';
     for (var i = 1; i <= tp; i++) {
-      h += '<button onclick="window.__goToPage(' + i + ')" class="w-10 h-10 rounded-xl text-sm font-bold transition-all ' + (i === currentPage ? 'bg-brand-900 text-white shadow-md' : 'bg-white dark:bg-transparent border border-slate-200 text-slate-600 hover:border-brand-400') + '">' + i + '</button>';
+      h += '<button onclick="window.__goToPage(' + i + ')" class="w-10 h-10 rounded-xl text-sm font-bold transition-all ' + (i === currentPage ? 'bg-deep text-white shadow-md' : 'bg-white dark:bg-transparent border border-slate-200 text-slate-600 hover:border-gold') + '">' + i + '</button>';
     }
     c.innerHTML = h;
   }
@@ -357,7 +311,7 @@
         c.classList.remove('filter-chip-resmi', 'segment-active');
         c.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
       } else {
-        c.classList.remove('bg-brand-900', 'text-white', 'shadow-md');
+        c.classList.remove('bg-deep', 'text-white', 'shadow-md');
         c.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
       }
     });
@@ -367,7 +321,7 @@
         active.classList.add('segment-active');
         active.classList.remove('bg-white', 'text-slate-600');
       } else {
-        active.classList.add('bg-brand-900', 'text-white', 'shadow-md');
+        active.classList.add('bg-deep', 'text-white', 'shadow-md');
         active.classList.remove('bg-white', 'text-slate-600');
       }
     }
@@ -380,9 +334,7 @@
     renderProductDisplay();
   };
 
-  /* ============================================
-     5. MODE TAMPILAN — GRID vs TABEL B2B
-     ============================================ */
+  // View mode
   window.setViewMode = function (mode) {
     if (mode !== 'grid' && mode !== 'table') return;
     viewMode = mode;
@@ -393,9 +345,7 @@
     renderProductDisplay();
   };
 
-  /* ============================================
-     6. WISHLIST
-     ============================================ */
+  // Wishlist
   window.toggleWishlistItem = function (id, event) {
     if (event) event.stopPropagation();
     var index = wishlist.indexOf(id);
@@ -418,9 +368,9 @@
     container.innerHTML = wishlist.map(function (id) {
       var p = allProducts.find(function (x) { return x.id === id; });
       if (!p) return '';
-      return '<div class="flex items-center gap-3 bg-slate-50 dark:bg-white/5 p-3 rounded-xl border border-slate-100 dark:border-white/10">' +
-        '<div class="flex-1 min-w-0"><div class="font-bold text-sm text-brand-900 dark:text-white truncate">' + escapeHtml(p.name) + '</div><div class="text-brand-500 font-mono text-xs font-bold">' + formatRupiah(p.price) + '</div></div>' +
-        '<button onclick="window.__addCart(\'' + p.id + '\'); toggleWishlistItem(\'' + p.id + '\');" class="w-8 h-8 rounded-lg bg-brand-900 text-white flex items-center justify-center hover:bg-brand-700 transition-colors" title="Pindah ke Keranjang"><i class="fa-solid fa-cart-plus text-xs"></i></button>' +
+      return '<div class="flex items-center gap-3 bg-ivory dark:bg-white/5 p-3 rounded-xl border border-slate-100 dark:border-white/10">' +
+        '<div class="flex-1 min-w-0"><div class="font-bold text-sm text-deep dark:text-white truncate">' + escapeHtml(p.name) + '</div><div class="text-gold font-mono text-xs font-bold">' + formatRupiah(p.price) + '</div></div>' +
+        '<button onclick="window.__addCart(\'' + p.id + '\'); toggleWishlistItem(\'' + p.id + '\');" class="w-8 h-8 rounded-lg bg-deep text-white flex items-center justify-center hover:bg-brand-700 transition-colors" title="Pindah ke Keranjang"><i class="fa-solid fa-cart-plus text-xs"></i></button>' +
         '<button onclick="toggleWishlistItem(\'' + p.id + '\')" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>' +
         '</div>';
     }).join('');
@@ -443,9 +393,7 @@
     }
   };
 
-  /* ============================================
-     7. QUICK VIEW MODAL
-     ============================================ */
+  // Quick View
   window.openQuickView = function (id) {
     var p = allProducts.find(function (x) { return x.id === id; });
     if (!p) return;
@@ -493,9 +441,7 @@
     document.body.style.overflow = '';
   };
 
-  /* ============================================
-     8. LIVE VISITOR COUNTER
-     ============================================ */
+  // Live visitor counter
   function initVisitorCounter() {
     var el = document.getElementById('visitorCount');
     if (!el) return;
@@ -508,9 +454,7 @@
     }, 4000);
   }
 
-  /* ============================================
-     9. KERANJANG (dengan localStorage — anti hilang saat refresh)
-     ============================================ */
+  // Cart functions (unchanged but with enhanced UI)
   window.__addCart = function (id) {
     var p = allProducts.find(function (x) { return x.id === id; });
     if (!p) return;
@@ -552,12 +496,12 @@
     if (progressFill) progressFill.style.width = Math.min((t / 20) * 100, 100) + '%';
     if (t >= 20) {
       if (bannerTitle) bannerTitle.innerText = '🎉 Target Tercapai';
-      if (bannerSubtitle) bannerSubtitle.innerHTML = 'Anda mendapat <b class="text-emerald-300">GRATIS ONGKIR</b>';
-      if (banner) { banner.classList.add('bg-emerald-600'); banner.classList.remove('bg-brand-900'); }
+      if (bannerSubtitle) bannerSubtitle.innerHTML = 'Anda mendapat <b class="text-gold">GRATIS ONGKIR</b>';
+      if (banner) { banner.classList.add('bg-emerald-600'); banner.classList.remove('bg-deep'); }
     } else {
       if (bannerTitle) bannerTitle.innerText = 'Target Gratis Ongkir';
-      if (bannerSubtitle) bannerSubtitle.innerHTML = 'Pilih <b class="text-emerald-300">' + (20 - t) + ' slop</b> lagi untuk subsidi.';
-      if (banner) { banner.classList.remove('bg-emerald-600'); banner.classList.add('bg-brand-900'); }
+      if (bannerSubtitle) bannerSubtitle.innerHTML = 'Pilih <b class="text-gold">' + (20 - t) + ' slop</b> lagi untuk subsidi.';
+      if (banner) { banner.classList.remove('bg-emerald-600'); banner.classList.add('bg-deep'); }
     }
 
     var cc = document.getElementById('cartItemsContainer');
@@ -575,8 +519,8 @@
         cc.innerHTML = cart.map(function (i) {
           var catBadge = i.category === 'resmi'
             ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI</span>'
-            : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded border border-brand-200"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2</span>';
-          return '<div class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/10 shadow-sm flex gap-4"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><span class="font-bold text-sm text-brand-900 dark:text-white truncate">' + escapeHtml(i.name) + '</span>' + catBadge + '</div><div class="text-brand-500 font-bold font-mono text-sm">' + formatRupiah(i.price) + '</div></div><div class="flex items-center border border-slate-200 dark:border-white/10 rounded-lg h-9 shrink-0"><button onclick="window.__updateQty(\'' + i.id + '\',-1)" class="w-9 h-full font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">-</button><span class="w-8 text-center text-xs font-bold font-mono">' + i.qty + '</span><button onclick="window.__updateQty(\'' + i.id + '\',1)" class="w-9 h-full font-bold text-brand-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">+</button></div></div>';
+            : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep bg-deep/5 px-1.5 py-0.5 rounded border border-deep/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2</span>';
+          return '<div class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/10 shadow-sm flex gap-4"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><span class="font-bold text-sm text-deep dark:text-white truncate">' + escapeHtml(i.name) + '</span>' + catBadge + '</div><div class="text-gold font-bold font-mono text-sm">' + formatRupiah(i.price) + '</div></div><div class="flex items-center border border-slate-200 dark:border-white/10 rounded-lg h-9 shrink-0"><button onclick="window.__updateQty(\'' + i.id + '\',-1)" class="w-9 h-full font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">-</button><span class="w-8 text-center text-xs font-bold font-mono">' + i.qty + '</span><button onclick="window.__updateQty(\'' + i.id + '\',1)" class="w-9 h-full font-bold text-gold hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">+</button></div></div>';
         }).join('');
       }
     }
@@ -602,9 +546,7 @@
     }
   };
 
-  /* ============================================
-     10. CHECKOUT MODAL + VALIDASI
-     ============================================ */
+  // Checkout (unchanged)
   window.openCheckoutModal = function () {
     toggleCart();
     setTimeout(function () {
@@ -638,7 +580,7 @@
       var numCircle = ind.querySelector('div');
       var textSpan = ind.querySelector('span');
       numCircle.className = "w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center transition-colors duration-300 border-2 border-white ring-2 ring-slate-100 step-indicator" + (idx + 1 === stepNum ? " active shadow-sm" : (idx + 1 < stepNum ? " completed shadow-sm" : " bg-slate-100 text-slate-400"));
-      textSpan.className = "text-[9px] font-bold uppercase tracking-widest" + (idx + 1 === stepNum ? " text-brand-900 dark:text-white" : (idx + 1 < stepNum ? " text-emerald-500" : " text-slate-400"));
+      textSpan.className = "text-[9px] font-bold uppercase tracking-widest" + (idx + 1 === stepNum ? " text-deep dark:text-white" : (idx + 1 < stepNum ? " text-gold" : " text-slate-400"));
     });
     var widthPercentage = stepNum === 1 ? 0 : stepNum === 2 ? 50 : 100;
     if (line) line.style.width = widthPercentage + "%";
@@ -759,9 +701,7 @@
     }, 1500);
   };
 
-  /* ============================================
-     11. REVIEW MODAL
-     ============================================ */
+  // Review
   window.openReviewModal = function () {
     var o = document.getElementById('reviewModalOverlay');
     var m = document.getElementById('reviewModal');
@@ -786,8 +726,8 @@
     if (ratingInput) ratingInput.value = val;
     var stars = document.querySelectorAll('#starRatingSelector i');
     stars.forEach(function (s) {
-      if (parseInt(s.getAttribute('data-rating')) <= val) { s.classList.add('text-amber-400'); s.classList.remove('text-slate-200'); }
-      else { s.classList.remove('text-amber-400'); s.classList.add('text-slate-200'); }
+      if (parseInt(s.getAttribute('data-rating')) <= val) { s.classList.add('text-gold'); s.classList.remove('text-slate-200'); }
+      else { s.classList.remove('text-gold'); s.classList.add('text-slate-200'); }
     });
   };
   window.submitReview = function () {
@@ -804,7 +744,7 @@
       var initial = name.charAt(0).toUpperCase();
       var newCard = document.createElement('div');
       newCard.className = 'testimonial-card-slide bg-white dark:bg-white/5 rounded-3xl p-8 border border-slate-200 dark:border-white/10 shadow-sm relative flex flex-col justify-between';
-      newCard.innerHTML = '<div><div class="flex items-center gap-4 mb-5"><div class="w-14 h-14 rounded-full avatar-gradient-9 shrink-0"><span class="avatar-initial">' + initial + '</span></div><div><h4 class="font-extrabold text-brand-900 dark:text-white text-base">' + escapeHtml(name) + '</h4><p class="text-xs text-slate-500 font-medium">' + escapeHtml(store) + '</p></div></div><div class="flex gap-0.5 mb-4 text-amber-400 text-sm">' + starsHtml + '</div><p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">"' + escapeHtml(text) + '"</p></div><div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> Baru saja</span><span class="text-slate-400 font-bold"><i class="fa-solid fa-clock"></i> Pending Review</span></div>';
+      newCard.innerHTML = '<div><div class="flex items-center gap-4 mb-5"><div class="w-14 h-14 rounded-full avatar-gradient-9 shrink-0"><span class="avatar-initial">' + initial + '</span></div><div><h4 class="font-serif font-bold text-deep dark:text-white text-base">' + escapeHtml(name) + '</h4><p class="text-xs text-slate-500 font-medium">' + escapeHtml(store) + '</p></div></div><div class="flex gap-0.5 mb-4 text-gold text-sm">' + starsHtml + '</div><p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">"' + escapeHtml(text) + '"</p></div><div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> Baru saja</span><span class="text-slate-400 font-bold"><i class="fa-solid fa-clock"></i> Pending Review</span></div>';
       var slider = document.getElementById('testimonialSlider');
       if (slider) { slider.insertBefore(newCard, slider.firstChild); slider.scrollTo({ left: 0, behavior: 'smooth' }); }
       showToast('Terima kasih! Ulasan Anda berhasil dikirim.');
@@ -814,17 +754,13 @@
     }, 1000);
   };
 
-  /* ============================================
-     12. NEWSLETTER
-     ============================================ */
+  // Newsletter
   window.handleNewsletterSubmit = function (form) {
     var input = form.querySelector('input[type="email"]');
     if (input && input.value) { showToast('Terima kasih! Anda telah berlangganan newsletter.'); input.value = ''; }
   };
 
-  /* ============================================
-     13. INISIALISASI
-     ============================================ */
+  // Initialization
   document.addEventListener('DOMContentLoaded', function () {
     var loader = document.getElementById('loader');
     if (loader) {
@@ -888,7 +824,7 @@
       }
     });
 
-    // ---- Pencarian dengan autocomplete (debounced, satu listener) ----
+    // Search
     var searchInput = document.getElementById('searchInput');
     var suggestionsBox = document.getElementById('searchSuggestions');
     if (searchInput) {
@@ -922,11 +858,11 @@
             suggestionsBox.innerHTML = matches.map(function (p) {
               var safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               var highlighted = p.name.replace(new RegExp(safeQuery, 'gi'), function (match) {
-                return '<span class="text-brand-600 dark:text-brand-300 bg-brand-100 dark:bg-brand-900/40 px-0.5 rounded">' + match + '</span>';
+                return '<span class="text-gold bg-gold/10 px-0.5 rounded">' + match + '</span>';
               });
-              return '<div class="px-4 py-3 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer border-b border-slate-100 dark:border-white/10 last:border-0 flex items-center gap-3 transition-colors" data-suggest-id="' + p.id + '">' +
+              return '<div class="px-4 py-3 hover:bg-ivory dark:hover:bg-white/5 cursor-pointer border-b border-slate-100 dark:border-white/10 last:border-0 flex items-center gap-3 transition-colors" data-suggest-id="' + p.id + '">' +
                 '<i class="fa-solid fa-magnifying-glass text-slate-400 text-xs"></i>' +
-                '<div><div class="text-sm font-bold text-brand-900 dark:text-white">' + highlighted + '</div><div class="text-xs text-slate-500 font-mono">' + formatRupiah(p.price) + '</div></div></div>';
+                '<div><div class="text-sm font-bold text-deep dark:text-white">' + highlighted + '</div><div class="text-xs text-slate-500 font-mono">' + formatRupiah(p.price) + '</div></div></div>';
             }).join('');
             suggestionsBox.classList.remove('hidden');
           } else {
@@ -954,7 +890,7 @@
       }
     }
 
-    // ---- Checkout form wiring ----
+    // Checkout form events
     var formInputs = document.querySelectorAll('#checkoutFormFull input, #checkoutFormFull textarea, #checkoutFormFull select');
     formInputs.forEach(function (input, index) {
       input.addEventListener('keydown', function (e) {
@@ -993,7 +929,7 @@
       if (q && q.classList.contains('modal-enter')) closeQuickView();
     });
 
-    // ---- Testimonial slider ----
+    // Testimonial slider
     var slider = document.getElementById('testimonialSlider');
     var prevBtn = document.getElementById('sliderPrevBtn');
     var nextBtn = document.getElementById('sliderNextBtn');
