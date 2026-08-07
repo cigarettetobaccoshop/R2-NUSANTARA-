@@ -1,4 +1,4 @@
-const CACHE_NAME = 'r2-nusantara-v1';
+const CACHE_NAME = 'r2-nusantara-v2';
 const urlsToCache = [
   '.',
   'index.html',
