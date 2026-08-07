@@ -1,0 +1,17 @@
+{
+  "name": "R2 Nusantara",
+  "short_name": "R2 Nusantara",
+  "description": "Gudang Distributor Rokok Grosir Malang",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "icons": [
+    {
+      "src": "assets/logo/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
