@@ -120,6 +120,26 @@
   }
 
   /* ============================================
+     3b. ANIMATED STAT COUNTERS (scroll-triggered)
+     ============================================ */
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-count-to'), 10);
+    if (isNaN(target)) return;
+    var suffix = el.getAttribute('data-count-suffix') || '';
+    var duration = 1400;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ============================================
      4. KATALOG — FILTER / SORT / SEARCH
      ============================================ */
   window.switchCatalog = function (cat) {
@@ -366,8 +386,8 @@
   window.setViewMode = function (mode) {
     if (mode !== 'grid' && mode !== 'table') return;
     viewMode = mode;
-    var btnGrid = document.getElementById('viewModeGridBtn');
-    var btnTable = document.getElementById('viewModeTableBtn');
+    var btnGrid = document.getElementById('viewGridBtn');
+    var btnTable = document.getElementById('viewTableBtn');
     if (btnGrid) btnGrid.classList.toggle('active', mode === 'grid');
     if (btnTable) btnTable.classList.toggle('active', mode === 'table');
     renderProductDisplay();
@@ -835,6 +855,21 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-on-scroll').forEach(function (el) { obs.observe(el); });
 
+    var counterObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { animateCounter(en.target); counterObs.unobserve(en.target); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-counter').forEach(function (el) { counterObs.observe(el); });
+
+    var copyrightYear = document.getElementById('copyrightYear');
+    if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
+
+    var scrollProgressWrap = document.getElementById('scrollProgress');
+    var scrollCircle = document.getElementById('scrollCircle');
+    var scrollPercentLabel = document.getElementById('scrollPercent');
+    var CIRCLE_CIRCUMFERENCE = 113.1;
+
     window.addEventListener('scroll', function () {
       var h = document.getElementById('headerInner');
       var btt = document.getElementById('backToTop');
@@ -843,14 +878,37 @@
         else { h.classList.add('py-3'); h.classList.remove('py-2', 'shadow-lg'); }
       }
       if (btt) { if (window.scrollY > 500) btt.classList.add('visible'); else btt.classList.remove('visible'); }
+
+      if (scrollProgressWrap && scrollCircle && scrollPercentLabel) {
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = docHeight > 0 ? Math.min(Math.max(window.scrollY / docHeight, 0), 1) : 0;
+        scrollCircle.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE * (1 - pct);
+        scrollPercentLabel.textContent = Math.round(pct * 100) + '%';
+        scrollProgressWrap.style.opacity = window.scrollY > 400 ? '1' : '0';
+      }
     });
 
     // ---- Pencarian dengan autocomplete (debounced, satu listener) ----
     var searchInput = document.getElementById('searchInput');
     var suggestionsBox = document.getElementById('searchSuggestions');
     if (searchInput) {
+      var clearBtn = document.getElementById('clearSearchBtn');
+      window.clearSearch = function () {
+        searchInput.value = '';
+        searchTerm = '';
+        currentPage = 1;
+        if (clearBtn) { clearBtn.classList.add('hidden'); clearBtn.classList.remove('flex'); }
+        if (suggestionsBox) suggestionsBox.classList.add('hidden');
+        renderProductDisplay();
+        searchInput.focus();
+      };
+
       var searchTimer;
       searchInput.addEventListener('input', function (e) {
+        if (clearBtn) {
+          if (e.target.value.length > 0) { clearBtn.classList.remove('hidden'); clearBtn.classList.add('flex'); }
+          else { clearBtn.classList.add('hidden'); clearBtn.classList.remove('flex'); }
+        }
         clearTimeout(searchTimer);
         var query = e.target.value.toLowerCase().trim();
         searchTimer = setTimeout(function () {

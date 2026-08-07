@@ -74,7 +74,10 @@
           "@id": "https://gudangdistributormalang-r2nusantara.github.io/R2-Nusantara/#faq",
           "mainEntity": [
             { "@type": "Question", "name": "Apa itu sistem Bayar Setelah Resi Keluar?", "acceptedAnswer": { "@type": "Answer", "text": "Pembayaran baru dilakukan setelah barang masuk ekspedisi dan resi terbit." } },
-            { "@type": "Question", "name": "Berapa minimal order untuk gratis ongkir?", "acceptedAnswer": { "@type": "Answer", "text": "Minimal order 1 bal (20 slop)." } }
+            { "@type": "Question", "name": "Berapa minimal order untuk gratis ongkir?", "acceptedAnswer": { "@type": "Answer", "text": "Minimal order 1 bal (20 slop)." } },
+            { "@type": "Question", "name": "Bagaimana alur pemesanannya?", "acceptedAnswer": { "@type": "Answer", "text": "Pilih merek dari katalog, masukkan ke keranjang, lalu lanjutkan ke checkout untuk mengisi data pengiriman. Pesanan diteruskan ke Admin via WhatsApp untuk konfirmasi." } },
+            { "@type": "Question", "name": "Ekspedisi apa saja yang tersedia?", "acceptedAnswer": { "@type": "Answer", "text": "Tersedia JNE, J&T, SiCepat Express, dan Indah Cargo." } },
+            { "@type": "Question", "name": "Berapa total pilihan merek yang tersedia?", "acceptedAnswer": { "@type": "Answer", "text": "Total 233 merek ready stock, terdiri dari 167 merek Katalog R2 dan 66 merek Katalog Resmi." } }
           ]
         }
       ]
@@ -198,6 +201,13 @@
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
                         Distributor Resmi Malang
+                    </div>
+                </div>
+
+                <div class="animate-slide-up mb-2" style="animation-delay: 0.13s;">
+                    <div class="live-visitor-badge">
+                        <span class="dot"></span>
+                        <span><span id="visitorCount">24</span> orang sedang melihat halaman ini</span>
                     </div>
                 </div>
 
@@ -368,7 +378,7 @@
                     </div>
                     <div class="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm relative overflow-hidden card-premium fade-on-scroll flex flex-col justify-center text-center items-center">
                         <div class="w-20 h-20 bg-brand-50 text-brand-500 rounded-full flex items-center justify-center text-3xl mb-4 border-8 border-white shadow-md"><i class="fa-solid fa-boxes-stacked"></i></div>
-                        <h3 class="text-4xl md:text-5xl font-black text-brand-900 tracking-tighter mb-1">233</h3>
+                        <h3 class="text-4xl md:text-5xl font-black text-brand-900 tracking-tighter mb-1 stat-counter" data-count-to="233">0</h3>
                         <p class="text-slate-500 font-medium">Merek Tersedia</p>
                     </div>
                     <div class="md:col-span-2 bg-gradient-to-b from-brand-50 to-white rounded-[2rem] p-8 md:p-10 border border-brand-100 shadow-sm relative overflow-hidden card-premium fade-on-scroll flex items-center">
@@ -554,6 +564,27 @@
                         </summary>
                         <div class="faq-content text-slate-600 text-sm leading-relaxed">Minimal order 1 bal (20 slop) sudah mendapatkan subsidi ongkir.</div>
                     </details>
+                    <details class="faq-item bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-brand-300 transition-colors">
+                        <summary class="flex items-center justify-between cursor-pointer list-none">
+                            <h3 class="font-extrabold text-brand-900 text-base md:text-lg pr-4">Bagaimana alur pemesanannya?</h3>
+                            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center shrink-0 text-sm"><i class="fa-solid fa-plus"></i></span>
+                        </summary>
+                        <div class="faq-content text-slate-600 text-sm leading-relaxed">Pilih merek dari Katalog, masukkan ke keranjang, lalu lanjutkan ke Checkout untuk mengisi data pengiriman. Pesanan akan diteruskan otomatis ke Admin kami via WhatsApp untuk konfirmasi.</div>
+                    </details>
+                    <details class="faq-item bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-brand-300 transition-colors">
+                        <summary class="flex items-center justify-between cursor-pointer list-none">
+                            <h3 class="font-extrabold text-brand-900 text-base md:text-lg pr-4">Ekspedisi apa saja yang tersedia?</h3>
+                            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center shrink-0 text-sm"><i class="fa-solid fa-plus"></i></span>
+                        </summary>
+                        <div class="faq-content text-slate-600 text-sm leading-relaxed">Tersedia JNE, J&T, SiCepat Express, dan Indah Cargo. Ekspedisi dapat dipilih langsung saat proses checkout.</div>
+                    </details>
+                    <details class="faq-item bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-brand-300 transition-colors">
+                        <summary class="flex items-center justify-between cursor-pointer list-none">
+                            <h3 class="font-extrabold text-brand-900 text-base md:text-lg pr-4">Berapa total pilihan merek yang tersedia?</h3>
+                            <span class="faq-icon w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center shrink-0 text-sm"><i class="fa-solid fa-plus"></i></span>
+                        </summary>
+                        <div class="faq-content text-slate-600 text-sm leading-relaxed">Total 233 merek ready stock — 167 merek dari Katalog R2 dan 66 merek dari Katalog Resmi (brand nasional & internasional).</div>
+                    </details>
                 </div>
             </div>
         </section>
@@ -579,8 +610,88 @@
                     <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
                 </div>
             </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12 fade-on-scroll">
+                <div>
+                    <p class="footer-title">Tentang Kami</p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-5">Gudang distributor rokok grosir resmi berbasis di Malang, Jawa Timur. Melayani mitra toko di seluruh Indonesia dengan sistem transaksi yang aman dan transparan.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge-pill"><i class="fa-solid fa-circle-check text-blue-400"></i> Distributor Resmi</span>
+                        <span class="badge-pill"><i class="fa-solid fa-calendar-days text-brand-300"></i> Est. 2024</span>
+                        <span class="badge-pill"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Anti Penipuan</span>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="footer-title">Tautan Cepat</p>
+                    <div class="flex flex-col items-start gap-3">
+                        <a href="#beranda" class="footer-link"><i class="fa-solid fa-chevron-right text-[9px]"></i> Beranda</a>
+                        <a href="#why" class="footer-link"><i class="fa-solid fa-chevron-right text-[9px]"></i> Keunggulan</a>
+                        <a href="#produk" class="footer-link"><i class="fa-solid fa-chevron-right text-[9px]"></i> Katalog Harga</a>
+                        <a href="#testimoni" class="footer-link"><i class="fa-solid fa-chevron-right text-[9px]"></i> Testimoni</a>
+                        <a href="#faq" class="footer-link"><i class="fa-solid fa-chevron-right text-[9px]"></i> Pertanyaan Umum</a>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="footer-title">Tim Sales & Admin</p>
+                    <div class="flex flex-col gap-3">
+                        <a href="https://wa.me/6285715905079" target="_blank" class="sales-card">
+                            <div class="flex items-center gap-3">
+                                <div class="wa-circle"><i class="fa-brands fa-whatsapp"></i></div>
+                                <div>
+                                    <div class="text-white font-bold text-xs">Admin 1</div>
+                                    <div class="text-slate-400 text-[11px] font-mono">+62 857-1590-5079</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 text-[10px]"></i>
+                        </a>
+                        <a href="https://wa.me/6283169386894" target="_blank" class="sales-card">
+                            <div class="flex items-center gap-3">
+                                <div class="wa-circle"><i class="fa-brands fa-whatsapp"></i></div>
+                                <div>
+                                    <div class="text-white font-bold text-xs">Admin 2</div>
+                                    <div class="text-slate-400 text-[11px] font-mono">+62 831-6938-6894</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="footer-title">Newsletter</p>
+                    <form onsubmit="event.preventDefault(); handleNewsletterSubmit(this);" class="newsletter-box mb-6">
+                        <p class="text-white font-bold text-xs mb-1">Info Stok & Promo Mitra</p>
+                        <p class="text-slate-400 text-[11px] mb-4 leading-relaxed">Dapatkan update harga dan promo terbaru langsung ke email Anda.</p>
+                        <div class="flex gap-2">
+                            <input type="email" required placeholder="Alamat email" class="flex-1 min-w-0 px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-brand-400 transition-colors">
+                            <button type="submit" class="px-3.5 py-2.5 bg-brand-500 hover:bg-brand-400 text-white rounded-lg text-xs font-bold transition-colors shrink-0" aria-label="Kirim"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                    <p class="footer-title">Jangkauan Pengiriman</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="region-tag">Jawa</span>
+                        <span class="region-tag">Sumatera</span>
+                        <span class="region-tag">Kalimantan</span>
+                        <span class="region-tag">Sulawesi</span>
+                        <span class="region-tag">Bali & Nusra</span>
+                        <span class="region-tag">Indonesia Timur</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-8 fade-on-scroll">
+                <span class="badge-pill"><i class="fa-solid fa-boxes-stacked text-brand-400"></i> <span class="stat-counter" data-count-to="233" data-count-suffix="+">0+</span> Merek</span>
+                <span class="badge-pill"><i class="fa-solid fa-shop text-brand-400"></i> <span class="stat-counter" data-count-to="500" data-count-suffix="+">0+</span> Mitra Toko</span>
+                <span class="badge-pill"><i class="fa-solid fa-truck-fast text-brand-400"></i> Gratis Ongkir 1 Bal</span>
+                <span class="badge-pill"><i class="fa-solid fa-money-check-dollar text-brand-400"></i> Bayar Setelah Resi</span>
+            </div>
+
             <div class="text-center text-slate-500 text-xs">
-                <p>© 2025 <span class="text-white font-bold">CV. R2 Nusantara</span>. All rights reserved.</p>
+                <p>© <span id="copyrightYear">2026</span> <span class="text-white font-bold">CV. R2 Nusantara</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -815,4 +926,3 @@
     </script>
 </body>
 </html>
-

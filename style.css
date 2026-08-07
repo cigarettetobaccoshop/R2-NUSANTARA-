@@ -388,3 +388,14 @@ html.dark .wishlist-heart-btn, html.dark .quickview-btn { background: rgba(16,24
 html.dark .no-product-empty { background: #101827 !important; border-color: rgba(255,255,255,0.1) !important; }
 
 .dark-mode-toggle-btn { transition: all 0.25s var(--transition-smooth); }
+
+/* ============================================
+   ANIMATED STAT COUNTERS
+   ============================================ */
+.stat-counter { font-variant-numeric: tabular-nums; }
+
+/* ============================================
+   CIRCULAR SCROLL PROGRESS
+   ============================================ */
+#scrollProgress { transition: opacity 0.3s ease; }
+@media (max-width: 1023px) { #scrollProgress { display: none; } }
