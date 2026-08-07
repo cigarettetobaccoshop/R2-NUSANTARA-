@@ -19,6 +19,82 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* ============= WATERMARK ============= */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('assets/logo/watermark.png');
+  background-repeat: repeat;
+  background-size: 200px;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============= BACKGROUNDS ============= */
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('assets/logo/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.loader-bg {
+  position: absolute; inset: 0;
+  background-image: url('assets/logo/loader-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.footer-bg {
+  position: absolute; inset: 0;
+  background-image: url('assets/logo/footer-bg.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  z-index: 0;
+}
+
+/* ============= ANIMASI TEKS ============= */
+.shine-text {
+  background: linear-gradient(90deg, #ffffff 0%, #93c5fd 30%, #ffffff 60%, #93c5fd 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+@keyframes shine {
+  to { background-position: 300% center; }
+}
+
+.fade-blur-up {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  filter: blur(4px);
+  animation: fadeBlurUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fadeBlurUp {
+  0% { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #3b82f6;
+  animation: typing 3s steps(40, end) 0.5s both, blink 0.8s step-end infinite;
+}
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
 button, a, select { touch-action: manipulation; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
