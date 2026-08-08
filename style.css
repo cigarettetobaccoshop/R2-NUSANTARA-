@@ -1,7 +1,6 @@
 /* ============================================
    R2 NUSANTARA — ENTERPRISE PREMIUM STYLES
    ============================================ */
-
 :root {
   --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ent-ivory: #FAFAF8;
@@ -17,40 +16,49 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  -webkit-tap-highlight-color: transparent;
-}
+* { -webkit-tap-highlight-color: transparent; }
 
 /* ============= TYPOGRAPHY ============= */
-.font-serif {
-  font-family: 'DM Serif Display', serif;
-}
-.font-mono {
-  font-family: 'IBM Plex Mono', monospace;
-}
+.font-serif { font-family: 'DM Serif Display', serif; }
+.font-mono { font-family: 'IBM Plex Mono', monospace; }
 
 /* ============= CUSTOM SCROLLBAR ============= */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 10px;
-}
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ent-black); }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ============= ASSETS INTEGRATION ============= */
+.loader-bg {
+  background-image: url('assets/logo/loader-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.hero-bg {
+  background-image: url('assets/logo/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.footer-bg {
+  background-image: url('assets/logo/footer-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.watermark-bg {
+  background-image: url('assets/logo/watermark.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 /* ============= MESH GRADIENT & NOISE ============= */
-.mesh-bg {
-  background-color: var(--ent-ivory);
+.mesh-gradient {
   background-image: 
     radial-gradient(at 40% 20%, hsla(28,100%,74%,0.15) 0px, transparent 50%),
     radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, hsla(340,100%,76%,0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, hsla(22,100%,77%,0.15) 0px, transparent 50%),
-    radial-gradient(at 80% 100%, hsla(242,100%,70%,0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 0%, hsla(343,100%,76%,0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%);
   filter: blur(40px);
 }
 .noise-overlay {
@@ -58,9 +66,7 @@ body {
 }
 
 /* ============= MICRO INTERACTIONS ============= */
-.magnetic-btn {
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+.magnetic-btn { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .card-premium {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, box-shadow;
@@ -70,87 +76,41 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
 }
 
-/* ============= BENTO GRID SYSTEM ============= */
-.bento-item {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.bento-item:hover {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 30px 60px -15px rgba(0,0,0,0.1);
-}
+/* ============= BENTO GRID ============= */
+.bento-item { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.bento-item:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.1); }
 
 /* ============= MARQUEE ============= */
-.animate-marquee-fast {
-  animation: marquee 25s linear infinite;
-}
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+.animate-marquee-fast { animation: marquee 25s linear infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 /* ============= ANIMATIONS ============= */
-.animate-fade-up {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
+.animate-fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 .fade-on-scroll { opacity: 0; transform: translateY(20px); transition: all 0.7s var(--transition-smooth); }
 .fade-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-
 .card-enter { animation: cardPop 0.5s var(--transition-smooth) backwards; }
-@keyframes cardPop {
-  0% { opacity: 0; transform: translateY(15px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
+@keyframes cardPop { 0% { opacity: 0; transform: translateY(15px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 .modal-enter { opacity: 1 !important; transform: translate(-50%, -50%) scale(1) !important; pointer-events: auto !important; }
 .overlay-enter { opacity: 1 !important; pointer-events: auto !important; }
 
-/* ============= CATALOG TABS & BADGES ============= */
-.catalog-tab {
-  transition: all 0.3s var(--transition-smooth);
-  color: #64748b;
-  padding: 8px 16px;
-  font-weight: 700;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.catalog-tab.active {
-  background: white;
-  color: var(--ent-black);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.tab-count {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 99px;
-  background: rgba(0,0,0,0.05);
-  font-family: 'IBM Plex Mono', monospace;
-}
+/* ============= CATALOG UI ============= */
+.catalog-tab { transition: all 0.3s var(--transition-smooth); color: #64748b; padding: 8px 16px; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.catalog-tab.active { background: white; color: var(--ent-black); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.tab-count { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: rgba(0,0,0,0.05); font-family: 'IBM Plex Mono', monospace; }
 
-/* ============= SEGMENT SYSTEM ============= */
-.segment-badge {
-  display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em; border: 1px solid;
-}
-.segment-A { background: #FAFAF8; color: #C9A84C; border-color: #E5D08C; } /* Premium Gold */
-.segment-B { background: #F8FAFC; color: #334155; border-color: #E2E8F0; } /* Silver/Slate */
-.segment-C { background: #F0FDF4; color: #166534; border-color: #BBF7D0; } /* Mild Green */
-.segment-D { background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; } /* International Blue */
-.segment-E { background: #FEF2F2; color: #991B1B; border-color: #FECACA; } /* Legacy Red */
+/* ============= SEGMENTS ============= */
+.segment-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; letter-spacing: 0.05em; border: 1px solid; }
+.segment-A { background: #FAFAF8; color: #C9A84C; border-color: #E5D08C; }
+.segment-B { background: #F8FAFC; color: #334155; border-color: #E2E8F0; }
+.segment-C { background: #F0FDF4; color: #166534; border-color: #BBF7D0; }
+.segment-D { background: #EFF6FF; color: #1E40AF; border-color: #BFDBFE; }
+.segment-E { background: #FEF2F2; color: #991B1B; border-color: #FECACA; }
 .tier-hemat { background: #F8FAFC; color: #475569; border-color: #E2E8F0; }
 .tier-populer { background: #FAFAF8; color: #0A0A0A; border-color: #E2E8F0; }
 .tier-premium { background: #0A0A0A; color: #FAFAF8; border-color: #0A0A0A; }
 
-/* ============= CHECKOUT FORMS ============= */
 .step-indicator { transition: all 0.4s ease; }
 .step-indicator.active { background-color: var(--ent-black); color: white; border-color: var(--ent-black); }
 .error-message.show { display: flex; animation: fadeUp 0.2s ease; }
-
-/* ============= STAR RATING ============= */
 .star-rating-input i:hover, .star-rating-input i:hover ~ i { color: var(--ent-gold) !important; transform: scale(1.1); }
