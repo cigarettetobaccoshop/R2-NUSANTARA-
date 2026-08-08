@@ -1,8 +1,8 @@
 {
   "name": "R2 Nusantara Enterprise",
   "short_name": "R2 Nusantara",
-  "description": "Distributor Rokok Grosir Premium Malang — Wholesale Trading Partner",
-  "start_url": "./",
+  "description": "Premium Wholesale Distributor — Bayar Setelah Resi",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FAFAF8",
   "theme_color": "#0A0A0A",
@@ -11,12 +11,14 @@
     {
       "src": "assets/logo/logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "assets/logo/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
