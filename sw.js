@@ -1,28 +1,51 @@
-const CACHE_NAME = 'r2-nusantara-v2';
-const urlsToCache = [
-  '.',
-  'index.html',
-  'style.css',
-  'data.js',
-  'app.js',
-  'manifest.json',
-  'assets/logo/logo.png',
-  'assets/logo/hero-bg.jpg',
-  'assets/logo/footer-bg.jpg',
-  'assets/logo/loader-bg.jpg',
-  'assets/logo/watermark.png'
+const CACHE_NAME = 'r2-enterprise-cache-v1';
+const ASSETS_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/style.css',
+  '/app.js',
+  '/data.js',
+  '/manifest.json'
 ];
 
-self.addEventListener('install', event => {
+// Install Event
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
   );
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', event => {
+// Activate Event
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch Event (Stale-while-revalidate strategy)
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, networkResponse.clone());
+        });
+        return networkResponse;
+      }).catch(() => cachedResponse);
+      return cachedResponse || fetchPromise;
+    })
   );
 });
