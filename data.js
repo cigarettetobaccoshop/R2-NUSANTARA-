@@ -1,11 +1,8 @@
 /* ============================================
-   DATA KATALOG PRODUK — R2 NUSANTARA
+   DATA KATALOG PRODUK — R2 NUSANTARA ENTERPRISE
    ============================================ */
 'use strict';
 
-// ============================================
-// DATA KATALOG PRODUK R2 (167 Merek)
-// ============================================
 var productsR2 = [
   { id: 'r2-1', name: "Absolute Bold", price: 118000 },
   { id: 'r2-2', name: "Age Pro", price: 65000 },
@@ -176,9 +173,6 @@ var productsR2 = [
   { id: 'r2-167', name: "Win Mild", price: 165000 }
 ].map(function (p) { p.category = 'r2'; return p; });
 
-// ============================================
-// DATA KATALOG PRODUK RESMI (66 Merek)
-// ============================================
 var productsResmi = [
   // Philip Morris (Sampoerna)
   { id: 'resmi-1', name: "A Mild 12", price: 185000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
@@ -254,5 +248,4 @@ var productsResmi = [
   { id: 'resmi-66', name: "Wismilak Special", price: 110000, segment: 'B', segmentName: 'Kretek Filter Reguler' }
 ].map(function (p) { p.category = 'resmi'; return p; });
 
-// Gabungkan kedua katalog agar bisa diakses global
 var allProducts = productsR2.concat(productsResmi);
