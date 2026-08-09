@@ -1,8 +1,9 @@
 /* ============================================
    app.js — R2 NUSANTARA MAIN APPLICATION
+   (UPGRADE: sinkronisasi assets lokal + semua fitur dipertahankan)
 ============================================ */
-'use strict';
 (function () {
+'use strict';
 
 /* ============ 1. DARK MODE ============ */
 window.toggleDarkMode = function () {
@@ -204,10 +205,13 @@ function generateProductPlaceholder(name, size, uid) {
   var w = size === 'small' ? 40 : 240, h = size === 'small' ? 40 : 160, fs = size === 'small' ? 9 : 15;
   var gid = 'grad' + uid + size;
   var safe = escapeHtml(name.length > (size === 'small' ? 6 : 18) ? name.slice(0, size === 'small' ? 6 : 18) + '…' : name);
+  var wm = size === 'medium'
+    ? '<image href="assets/logo/watermark.png" x="' + (w - 86) + '" y="' + (h - 62) + '" width="74" height="52" opacity="0.09" preserveAspectRatio="xMidYMid meet"></image>'
+    : '';
   return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">' +
     '<defs><linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#eff6ff"/><stop offset="100%" stop-color="#bfdbfe"/></linearGradient></defs>' +
     '<rect width="' + w + '" height="' + h + '" fill="url(#' + gid + ')" rx="8"/>' +
-    '<circle cx="' + (w * 0.85) + '" cy="' + (h * 0.2) + '" r="' + (h * 0.35) + '" fill="#c8962e" opacity="0.15"/>' +
+    '<circle cx="' + (w * 0.85) + '" cy="' + (h * 0.2) + '" r="' + (h * 0.35) + '" fill="#c8962e" opacity="0.15"/>' + wm +
     '<text x="' + (w / 2) + '" y="' + (h / 2) + '" font-family="Inter, sans-serif" font-size="' + fs + '" font-weight="700" fill="#1e3a5f" text-anchor="middle" dominant-baseline="middle">' + safe + '</text></svg>';
 }
 function buildCardActions(p) {
@@ -567,7 +571,7 @@ window.submitReview = function () {
   setTimeout(function () {
     var stars = ''; for (var i = 0; i < 5; i++) stars += i < rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-solid fa-star text-slate-200"></i>';
     var card = document.createElement('div');
-    card.className = 'testimonial-card-slide bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 relative flex flex-col justify-between';
+    card.className = 'testimonial-card-slide relative flex flex-col justify-between';
     card.innerHTML = '<div><div class="flex items-center gap-4 mb-5"><div class="w-14 h-14 rounded-full avatar-gradient-9 shrink-0"><span class="avatar-initial">' + escapeHtml(name.charAt(0).toUpperCase()) + '</span></div><div><h4 class="font-serif font-bold text-deep dark:text-white text-base">' + escapeHtml(name) + '</h4><p class="text-xs text-slate-500">' + escapeHtml(store || 'Mitra R2 Nusantara') + '</p></div></div><div class="flex gap-0.5 mb-4 text-gold text-sm">' + stars + '</div><p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">"' + escapeHtml(text) + '"</p></div><div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> Baru saja</span><span class="font-bold"><i class="fa-solid fa-clock"></i> Pending Review</span></div>';
     var slider = document.getElementById('testimonialSlider');
     if (slider) { slider.insertBefore(card, slider.firstChild); slider.scrollTo({ left: 0, behavior: 'smooth' }); }
@@ -606,7 +610,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.stat-counter').forEach(function (el) { cObs.observe(el); });
   var cy = document.getElementById('copyrightYear'); if (cy) cy.textContent = new Date().getFullYear();
 
-  /* Scroll handler */
   var CIRC = 113.1;
   window.addEventListener('scroll', function () {
     var h = document.getElementById('headerInner'), btt = document.getElementById('backToTop');
@@ -622,7 +625,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  /* Pencarian + autocomplete */
   var si = document.getElementById('searchInput'), sb = document.getElementById('searchSuggestions');
   if (si) {
     var cb = document.getElementById('clearSearchBtn');
@@ -663,7 +665,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  /* Checkout wiring */
   var inputs = document.querySelectorAll('#checkoutFormFull input, #checkoutFormFull textarea, #checkoutFormFull select');
   inputs.forEach(function (input, index) {
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && input.tagName !== 'TEXTAREA') { e.preventDefault(); if (index < inputs.length - 1) inputs[index + 1].focus(); } });
@@ -689,11 +690,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (q && q.classList.contains('modal-enter')) closeQuickView();
   });
 
-  /* Mobile menu close on link click */
   var mm = document.getElementById('mobileMenu');
   if (mm) mm.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMobileMenu); });
 
-  /* Testimonial slider */
   var slider = document.getElementById('testimonialSlider'), prev = document.getElementById('sliderPrevBtn'), next = document.getElementById('sliderNextBtn');
   if (slider && prev && next) {
     var isDown = false, startX, scrollLeft;
