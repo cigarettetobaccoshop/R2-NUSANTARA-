@@ -3,6 +3,9 @@
    ============================================ */
 'use strict';
 
+// ============================================
+// DATA KATALOG PRODUK R2 (167 Merek)
+// ============================================
 var productsR2 = [
   { id: 'r2-1', name: "Absolute Bold", price: 118000 },
   { id: 'r2-2', name: "Age Pro", price: 65000 },
@@ -173,7 +176,11 @@ var productsR2 = [
   { id: 'r2-167', name: "Win Mild", price: 165000 }
 ].map(function (p) { p.category = 'r2'; return p; });
 
+// ============================================
+// DATA KATALOG PRODUK RESMI (66 Merek)
+// ============================================
 var productsResmi = [
+  // Philip Morris (Sampoerna)
   { id: 'resmi-1', name: "A Mild 12", price: 185000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-2', name: "A Mild 16", price: 245000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-3', name: "A Mild Menthol", price: 260000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
@@ -192,6 +199,7 @@ var productsResmi = [
   { id: 'resmi-16', name: "Sampoerna U Bold", price: 230000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-17', name: "Sampoerna U Mild", price: 210000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-18', name: "Sampoerna U Mild 12", price: 175000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
+  // Gudang Garam
   { id: 'resmi-19', name: "Gudang Garam Djaja (SKT)", price: 160000, segment: 'E', segmentName: 'Kretek Tangan / Legacy' },
   { id: 'resmi-20', name: "Gudang Garam Filter", price: 155000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-21', name: "Gudang Garam Inter", price: 185000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
@@ -202,6 +210,7 @@ var productsResmi = [
   { id: 'resmi-26', name: "Surya Pro 12", price: 160000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-27', name: "Surya Pro 16", price: 200000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-28', name: "Surya Promild", price: 225000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
+  // Djarum
   { id: 'resmi-29', name: "Djarum 76", price: 135000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-30', name: "Djarum 76 Menthol", price: 150000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-31', name: "Djarum Black", price: 210000, segment: 'A', segmentName: 'Kretek Filter Premium' },
@@ -216,6 +225,7 @@ var productsResmi = [
   { id: 'resmi-40', name: "LA Lights 12", price: 180000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-41', name: "LA Lights 16", price: 220000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-42', name: "LA Lights Menthol", price: 240000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
+  // BAT
   { id: 'resmi-43', name: "Bentoel Biru", price: 160000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-44', name: "Bentoel Filter", price: 150000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-45', name: "Bentoel Mild", price: 180000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
@@ -226,6 +236,7 @@ var productsResmi = [
   { id: 'resmi-50', name: "Dunhill Mild", price: 240000, segment: 'D', segmentName: 'SPM Internasional' },
   { id: 'resmi-51', name: "Lucky Strike Filter", price: 220000, segment: 'D', segmentName: 'SPM Internasional' },
   { id: 'resmi-52', name: "Pall Mall Filter", price: 200000, segment: 'D', segmentName: 'SPM Internasional' },
+  // Nojorono
   { id: 'resmi-53', name: "Class Filter", price: 120000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-54', name: "Class Mild 12", price: 175000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-55', name: "Class Mild 16", price: 210000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
@@ -234,6 +245,7 @@ var productsResmi = [
   { id: 'resmi-58', name: "Clas Mild 16", price: 210000, segment: 'C', segmentName: 'Mild / Rendah Tar' },
   { id: 'resmi-59', name: "Minak Djinggo Original", price: 95000, segment: 'E', segmentName: 'Kretek Tangan / Legacy' },
   { id: 'resmi-60', name: "Minak Djinggo Rempah", price: 95000, segment: 'E', segmentName: 'Kretek Tangan / Legacy' },
+  // Wismilak
   { id: 'resmi-61', name: "Galan Filter", price: 100000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
   { id: 'resmi-62', name: "Galan Kretek", price: 100000, segment: 'E', segmentName: 'Kretek Tangan / Legacy' },
   { id: 'resmi-63', name: "Wismilak Filter", price: 110000, segment: 'B', segmentName: 'Kretek Filter Reguler' },
@@ -242,4 +254,5 @@ var productsResmi = [
   { id: 'resmi-66', name: "Wismilak Special", price: 110000, segment: 'B', segmentName: 'Kretek Filter Reguler' }
 ].map(function (p) { p.category = 'resmi'; return p; });
 
+// Gabungkan kedua katalog agar bisa diakses global
 var allProducts = productsR2.concat(productsResmi);
