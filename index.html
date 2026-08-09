@@ -5,8 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>R2 Nusantara | Distributor Rokok Grosir Premium Malang — Bayar Setelah Resi</title>
 <meta name="description" content="Distributor rokok grosir resmi Malang. 233 merek ready stock, gratis ongkir min 1 bal, bayar setelah resi keluar, gudang fisik terverifikasi.">
+<link rel="icon" type="image/png" href="assets/logo/logo.png">
+<link rel="apple-touch-icon" href="assets/logo/logo.png">
+<meta property="og:title" content="R2 Nusantara — Distributor Rokok Grosir Malang">
+<meta property="og:description" content="233 merek ready stock · Gratis Ongkir 1 Bal · Bayar Setelah Resi · Gudang fisik di Malang, Jawa Timur.">
+<meta property="og:image" content="https://gudangdistributormalang-r2nusantara.github.io/R2-Nusantara/assets/logo/preview.jpg">
+<meta property="og:type" content="website">
 <script>
 (function(){try{var s=localStorage.getItem('r2_dark_mode');var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='true'||(s===null&&d)){document.documentElement.classList.add('dark');}}catch(e){}})();
+window.__logoFail=function(img,s){var d=document.createElement('div');d.className='logo-core font-serif '+(s==='lg'?'text-2xl':'text-sm');d.textContent='R2';if(img.replaceWith)img.replaceWith(d);else img.outerHTML=d.outerHTML;};
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -45,15 +52,17 @@ tailwind.config = {
 <body class="bg-white dark:bg-amazon-bg font-sans text-slate-800 dark:text-slate-300">
 
 <!-- ============ LOADER ============ -->
-<div id="loader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center loader-bg-gradient transition-opacity duration-700">
-  <div class="logo-frame logo-frame-lg logo-pulse">
+<div id="loader" class="loader-screen fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
+  <div class="loader-bg" aria-hidden="true"></div>
+  <div class="loader-bg-overlay" aria-hidden="true"></div>
+  <div class="logo-frame logo-frame-lg logo-pulse relative z-10">
     <div class="logo-orbit"></div>
-    <div class="logo-core font-serif text-2xl">R2</div>
+    <img src="assets/logo/logo.png" alt="Logo R2 Nusantara" class="logo-core-img" onerror="__logoFail(this,'lg')">
   </div>
-  <div class="mt-7 font-serif text-2xl tracking-[0.35em] text-white loader-shine font-extrabold">R2 NUSANTARA</div>
-  <div class="mt-2 text-[10px] uppercase tracking-[0.4em] text-slate-400">Wholesale Trading Partner</div>
-  <div class="loader-bar mt-7"><div class="loader-bar-fill"></div></div>
-  <div class="mt-3 text-[9px] text-slate-500 font-mono">Mengamankan koneksi gudang…</div>
+  <div class="mt-7 font-serif text-2xl tracking-[0.35em] text-white loader-shine font-extrabold relative z-10">R2 NUSANTARA</div>
+  <div class="mt-2 text-[10px] uppercase tracking-[0.4em] text-slate-400 relative z-10">Wholesale Trading Partner</div>
+  <div class="loader-bar mt-7 relative z-10"><div class="loader-bar-fill"></div></div>
+  <div class="mt-3 text-[9px] text-slate-500 font-mono relative z-10">Mengamankan koneksi gudang…</div>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -62,7 +71,7 @@ tailwind.config = {
     <a href="#beranda" class="flex items-center gap-3 group">
       <div class="logo-frame logo-frame-sm logo-pulse">
         <div class="logo-orbit"></div>
-        <div class="logo-core font-serif text-sm">R2</div>
+        <img src="assets/logo/logo.png" alt="Logo R2 Nusantara" class="logo-core-img" onerror="__logoFail(this,'sm')">
       </div>
       <div>
         <div class="font-serif font-extrabold text-deep dark:text-white leading-none group-hover:text-gold transition-colors">R2 Nusantara</div>
@@ -102,6 +111,8 @@ tailwind.config = {
 
 <!-- ============ HERO ============ -->
 <section id="beranda" class="relative overflow-hidden pt-32 sm:pt-36 pb-16">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="watermark-float" aria-hidden="true"></div>
   <div class="hero-blob blob-1"></div>
   <div class="hero-blob blob-2"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-14 items-center relative">
@@ -142,10 +153,10 @@ tailwind.config = {
 
     <div class="relative hero-visual">
       <div class="hero-card glass-pill rounded-3xl p-3 relative">
-        <img src="https://image.qwenlm.ai/public_source/f5c25c9c-55ba-4b3f-bfee-bd6f02501082/16481b4c0-faf0-45f8-932b-b3a79fec7747.png" alt="Gudang R2 Nusantara Malang" class="rounded-2xl w-full h-[340px] sm:h-[420px] object-cover">
+        <img src="assets/logo/preview.jpg" alt="Preview Gudang R2 Nusantara" class="rounded-2xl w-full h-[340px] sm:h-[420px] object-cover" onerror="this.onerror=null;this.src='https://image.qwenlm.ai/public_source/f5c25c9c-55ba-4b3f-bfee-bd6f02501082/16481b4c0-faf0-45f8-932b-b3a79fec7747.png';">
         <div class="absolute -top-9 -left-6 logo-frame logo-frame-lg logo-pulse">
           <div class="logo-orbit"></div>
-          <div class="logo-core font-serif text-2xl">R2</div>
+          <img src="assets/logo/logo.png" alt="Logo R2 Nusantara" class="logo-core-img" onerror="__logoFail(this,'lg')">
         </div>
         <div class="absolute bottom-6 left-6 right-6 glass-dark rounded-2xl px-5 py-4 flex items-center justify-between">
           <div>
@@ -162,7 +173,7 @@ tailwind.config = {
   </div>
 
   <!-- Marquee -->
-  <div class="marquee-wrap mt-16 py-4 border-y border-slate-200 dark:border-white/10 bg-white/60 dark:bg-white/5">
+  <div class="marquee-wrap mt-16 py-4 border-y border-slate-200 dark:border-white/10 bg-white/60 dark:bg-white/5 relative">
     <div class="marquee-track">
       <span class="marquee-item"><i class="fa-solid fa-truck-fast"></i> JNE</span>
       <span class="marquee-item"><i class="fa-solid fa-box"></i> J&amp;T</span>
@@ -194,7 +205,6 @@ tailwind.config = {
       <a href="#produk" class="btn-outline px-5 py-2.5 rounded-xl text-xs font-bold">Lihat semua <i class="fa-solid fa-arrow-right ml-1"></i></a>
     </div>
     <div class="grid md:grid-cols-3 gap-6">
-      <!-- Card 1 -->
       <div class="featured-card card-enter bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 p-6 relative overflow-hidden group fade-on-scroll">
         <div class="absolute top-5 left-6 z-20 flex gap-2">
           <span class="pick-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Editor's Pick</span>
@@ -213,7 +223,6 @@ tailwind.config = {
         </div>
         <button onclick="window.__addCart('resmi-7')" class="w-full mt-4 py-3 bg-deep text-white font-bold rounded-xl hover:bg-gold transition-colors text-sm ripple"><i class="fa-solid fa-plus text-xs mr-1"></i> Tambah ke Keranjang</button>
       </div>
-      <!-- Card 2 -->
       <div class="featured-card card-enter bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 p-6 relative overflow-hidden group fade-on-scroll" style="animation-delay:80ms">
         <div class="absolute top-5 left-6 z-20 flex gap-2"><span class="pick-badge"><i class="fa-solid fa-crown text-gold"></i> Legendaris</span></div>
         <div class="absolute top-5 right-6 z-20 flex flex-col gap-2">
@@ -229,7 +238,6 @@ tailwind.config = {
         </div>
         <button onclick="window.__addCart('resmi-4')" class="w-full mt-4 py-3 bg-deep text-white font-bold rounded-xl hover:bg-gold transition-colors text-sm ripple"><i class="fa-solid fa-plus text-xs mr-1"></i> Tambah ke Keranjang</button>
       </div>
-      <!-- Card 3 -->
       <div class="featured-card card-enter bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 p-6 relative overflow-hidden group fade-on-scroll" style="animation-delay:160ms">
         <div class="absolute top-5 left-6 z-20 flex gap-2"><span class="pick-badge hot"><i class="fa-solid fa-arrow-trend-up"></i> Highest Margin</span></div>
         <div class="absolute top-5 right-6 z-20 flex flex-col gap-2">
@@ -408,22 +416,6 @@ tailwind.config = {
         </div>
         <div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> 1 minggu lalu</span><span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Mitra Terverifikasi</span></div>
       </div>
-      <div class="testimonial-card-slide">
-        <div>
-          <div class="flex items-center gap-4 mb-5"><div class="w-14 h-14 rounded-full avatar-gradient-5 shrink-0"><span class="avatar-initial">A</span></div><div><h4 class="font-serif font-bold text-deep dark:text-white text-base">Agus Priyanto</h4><p class="text-xs text-slate-500">Grosir AP — Medan</p></div></div>
-          <div class="flex gap-0.5 mb-4 text-gold text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">"Sudah 8x order, tidak pernah mengecewakan. Harga grosirnya jujur, stok selalu ready sesuai katalog."</p>
-        </div>
-        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> 2 minggu lalu</span><span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Mitra Terverifikasi</span></div>
-      </div>
-      <div class="testimonial-card-slide">
-        <div>
-          <div class="flex items-center gap-4 mb-5"><div class="w-14 h-14 rounded-full avatar-gradient-2 shrink-0"><span class="avatar-initial">D</span></div><div><h4 class="font-serif font-bold text-deep dark:text-white text-base">Dewi Lestari</h4><p class="text-xs text-slate-500">Toko Dewi — Denpasar</p></div></div>
-          <div class="flex gap-0.5 mb-4 text-gold text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">"Awalnya ragu karena jarak, tapi setelah lihat lokasi gudang di Maps dan video packing, langsung yakin. Recommended!"</p>
-        </div>
-        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-400"><span><i class="fa-solid fa-calendar-days mr-1"></i> 3 minggu lalu</span><span class="text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> Mitra Terverifikasi</span></div>
-      </div>
     </div>
   </div>
 </section>
@@ -445,18 +437,6 @@ tailwind.config = {
         <div class="faq-content text-sm text-slate-500 dark:text-slate-400">Minimal 1 bal (20 slop), bisa campur merek.</div>
       </details>
       <details class="faq-item bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 p-5 fade-on-scroll">
-        <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep dark:text-white">Bagaimana alur pemesanannya?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
-        <div class="faq-content text-sm text-slate-500 dark:text-slate-400">Pilih merek, masukkan ke keranjang, checkout, lalu admin konfirmasi via WhatsApp.</div>
-      </details>
-      <details class="faq-item bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 p-5 fade-on-scroll">
-        <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep dark:text-white">Ekspedisi apa saja yang tersedia?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
-        <div class="faq-content text-sm text-slate-500 dark:text-slate-400">JNE, J&amp;T, SiCepat Express, Indah Cargo.</div>
-      </details>
-      <details class="faq-item bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 p-5 fade-on-scroll">
-        <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep dark:text-white">Berapa total pilihan merek?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
-        <div class="faq-content text-sm text-slate-500 dark:text-slate-400">Total 233 merek — 167 R2, 66 Resmi.</div>
-      </details>
-      <details class="faq-item bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 p-5 fade-on-scroll">
         <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep dark:text-white">Di mana lokasi gudang fisik R2 Nusantara?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
         <div class="faq-content text-sm text-slate-500 dark:text-slate-400">Gudang pusat kami berada di Kota Malang, Jawa Timur. Lihat peta di bagian <a href="#lokasi" class="text-gold font-bold">Lokasi Gudang</a> atau konfirmasi via WhatsApp untuk jadwal kunjungan mitra.</div>
       </details>
@@ -464,7 +444,7 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ LOKASI GUDANG (GOOGLE MAPS) ============ -->
+<!-- ============ LOKASI GUDANG ============ -->
 <section id="lokasi" class="py-20 relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="text-center mb-10 fade-on-scroll">
@@ -478,23 +458,19 @@ tailwind.config = {
         <div class="map-overlay-pill glass-dark"><i class="fa-solid fa-location-dot text-gold"></i> Gudang R2 Nusantara — Malang, Jawa Timur</div>
       </div>
       <div class="lg:col-span-2 bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 p-7 flex flex-col gap-5 fade-on-scroll" style="transition-delay:120ms">
-        <img src="https://image.qwenlm.ai/public_source/f5c25c9c-55ba-4b3f-bfee-bd6f02501082/1b587f015-28c0-42bd-9394-8dbf8eb4bf69.png" alt="Area loading gudang R2 Nusantara" class="rounded-2xl h-36 w-full object-cover">
+        <img src="assets/logo/hero-bg.jpg" alt="Area loading gudang R2 Nusantara" class="rounded-2xl h-36 w-full object-cover" onerror="this.onerror=null;this.src='https://image.qwenlm.ai/public_source/f5c25c9c-55ba-4b3f-bfee-bd6f02501082/1b587f015-28c0-42bd-9394-8dbf8eb4bf69.png';">
         <div class="flex items-start gap-4">
-          <div class="logo-frame logo-frame-sm shrink-0"><div class="logo-core font-serif text-xs">R2</div></div>
+          <div class="logo-frame logo-frame-sm shrink-0">
+            <img src="assets/logo/logo.png" alt="Logo R2 Nusantara" class="logo-core-img" onerror="__logoFail(this,'sm')">
+          </div>
           <div>
             <h3 class="font-serif font-bold text-deep dark:text-white">Gudang Pusat R2 Nusantara</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Kawasan Pergudangan Kota Malang, Jawa Timur, Indonesia. Titik presisi &amp; alamat lengkap dibagikan via WhatsApp setelah konfirmasi order (prosedur anti penipuan).</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Kawasan Pergudangan Kota Malang, Jawa Timur, Indonesia. Titik presisi &amp; alamat lengkap dibagikan via WhatsApp setelah konfirmasi order.</p>
           </div>
         </div>
         <div class="space-y-3 text-sm">
           <div class="flex items-center gap-3"><i class="fa-solid fa-clock text-gold w-5"></i><span class="text-slate-600 dark:text-slate-300">Senin–Sabtu · 08.00–17.00 WIB</span></div>
           <div class="flex items-center gap-3"><i class="fa-solid fa-truck-ramp-box text-gold w-5"></i><span class="text-slate-600 dark:text-slate-300">Area loading &amp; verifikasi barang mitra</span></div>
-          <div class="flex items-center gap-3"><i class="fa-solid fa-user-shield text-gold w-5"></i><span class="text-slate-600 dark:text-slate-300">Kunjungan mitra dengan janji temu</span></div>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <span class="badge-pill"><i class="fa-solid fa-warehouse text-gold"></i> Gudang Fisik</span>
-          <span class="badge-pill light"><i class="fa-solid fa-file-contract text-gold"></i> Legalitas Terverifikasi</span>
-          <span class="badge-pill light"><i class="fa-solid fa-video text-gold"></i> Live Packing</span>
         </div>
         <div class="mt-auto grid grid-cols-2 gap-3">
           <a href="https://www.google.com/maps/search/?api=1&query=Malang%2C+Jawa+Timur%2C+Indonesia" target="_blank" rel="noopener" class="btn-gradient ripple text-center py-3 rounded-xl text-xs font-bold text-white"><i class="fa-solid fa-diamond-turn-right mr-1"></i> Petunjuk Arah</a>
@@ -506,21 +482,16 @@ tailwind.config = {
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer class="bg-deep text-slate-400 pt-16 pb-8 relative overflow-hidden">
+<footer class="footer-bg bg-deep text-slate-400 pt-16 pb-8 relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
       <div>
         <div class="flex items-center gap-3 mb-5">
-          <div class="logo-frame logo-frame-sm"><div class="logo-orbit"></div><div class="logo-core font-serif text-sm">R2</div></div>
+          <div class="logo-frame logo-frame-sm"><div class="logo-orbit"></div><img src="assets/logo/logo.png" alt="Logo R2 Nusantara" class="logo-core-img" onerror="__logoFail(this,'sm')"></div>
           <div><div class="font-serif font-extrabold text-white leading-none">R2 Nusantara</div><div class="text-[8px] uppercase tracking-[0.3em] text-slate-500 mt-0.5">Wholesale Trading Partner</div></div>
         </div>
         <h4 class="footer-title">Tentang Kami</h4>
         <p class="text-xs leading-relaxed">Gudang distributor rokok grosir resmi berbasis di Malang, Jawa Timur. Melayani mitra toko di seluruh Indonesia.</p>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="badge-pill"><i class="fa-solid fa-certificate text-gold"></i> Distributor Resmi</span>
-          <span class="badge-pill"><i class="fa-solid fa-calendar-check text-gold"></i> Est. 2024</span>
-          <span class="badge-pill"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Anti Penipuan</span>
-        </div>
       </div>
       <div>
         <h4 class="footer-title">Tautan Cepat</h4>
@@ -529,8 +500,6 @@ tailwind.config = {
           <a href="#why" class="footer-link"><i class="fa-solid fa-angle-right text-[9px] text-gold"></i> Keunggulan</a>
           <a href="#produk" class="footer-link"><i class="fa-solid fa-angle-right text-[9px] text-gold"></i> Katalog Harga</a>
           <a href="#lokasi" class="footer-link"><i class="fa-solid fa-angle-right text-[9px] text-gold"></i> Lokasi Gudang</a>
-          <a href="#testimoni" class="footer-link"><i class="fa-solid fa-angle-right text-[9px] text-gold"></i> Testimoni</a>
-          <a href="#faq" class="footer-link"><i class="fa-solid fa-angle-right text-[9px] text-gold"></i> FAQ</a>
         </div>
       </div>
       <div>
@@ -538,10 +507,6 @@ tailwind.config = {
         <div class="space-y-2">
           <div class="sales-card"><div><div class="text-[10px] font-bold text-white">Admin 1</div><div class="text-[10px] font-mono">+62 857-1590-5079</div></div><a href="https://wa.me/6285715905079" target="_blank" rel="noopener" class="wa-circle" aria-label="WhatsApp Admin 1"><i class="fa-brands fa-whatsapp text-xs"></i></a></div>
           <div class="sales-card"><div><div class="text-[10px] font-bold text-white">Admin 2</div><div class="text-[10px] font-mono">+62 831-6938-6894</div></div><a href="https://wa.me/6283169386894" target="_blank" rel="noopener" class="wa-circle" aria-label="WhatsApp Admin 2"><i class="fa-brands fa-whatsapp text-xs"></i></a></div>
-        </div>
-        <h4 class="footer-title mt-6">Jangkauan Pengiriman</h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="region-tag">Jawa</span><span class="region-tag">Sumatera</span><span class="region-tag">Kalimantan</span><span class="region-tag">Sulawesi</span><span class="region-tag">Bali &amp; Nusra</span><span class="region-tag">Indonesia Timur</span>
         </div>
       </div>
       <div>
@@ -554,14 +519,6 @@ tailwind.config = {
             <button class="btn-gradient ripple px-4 rounded-lg text-white text-xs font-bold" aria-label="Berlangganan"><i class="fa-solid fa-paper-plane"></i></button>
           </form>
         </div>
-        <div class="grid grid-cols-2 gap-3 mt-4">
-          <div class="sales-card flex-col !items-start"><div class="stat-counter font-mono text-xl font-bold text-gold" data-count-to="233" data-count-suffix="+">0</div><div class="text-[9px] uppercase tracking-widest">Merek</div></div>
-          <div class="sales-card flex-col !items-start"><div class="stat-counter font-mono text-xl font-bold text-white" data-count-to="500" data-count-suffix="+">0</div><div class="text-[9px] uppercase tracking-widest">Mitra Toko</div></div>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-4">
-          <span class="badge-pill"><i class="fa-solid fa-truck-fast text-gold"></i> Gratis Ongkir 1 Bal</span>
-          <span class="badge-pill"><i class="fa-solid fa-file-invoice text-emerald-400"></i> Bayar Setelah Resi</span>
-        </div>
       </div>
     </div>
     <div class="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px]">
@@ -571,7 +528,7 @@ tailwind.config = {
   </div>
 </footer>
 
-<!-- ============ CART SIDEBAR ============ -->
+<!-- ============ MODALS & SIDEBARS ============ -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
 <aside id="cartSidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-amazon-bg z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
   <div class="p-5 border-b border-slate-100 dark:border-white/10 flex items-center justify-between">
@@ -585,7 +542,6 @@ tailwind.config = {
   </div>
 </aside>
 
-<!-- ============ WISHLIST SIDEBAR ============ -->
 <div id="wishlistOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] hidden opacity-0 transition-opacity duration-300" onclick="toggleWishlistSidebar()"></div>
 <aside id="wishlistSidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-amazon-bg z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
   <div class="p-5 border-b border-slate-100 dark:border-white/10 flex items-center justify-between">
@@ -595,7 +551,6 @@ tailwind.config = {
   <div id="wishlistItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
 </aside>
 
-<!-- ============ QUICK VIEW ============ -->
 <div id="quickViewOverlay" class="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="closeQuickView()"></div>
 <div id="quickViewModal" class="fixed left-1/2 top-1/2 z-[81] w-[92%] max-w-md -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 pointer-events-none transition-all duration-300 bg-white dark:bg-[#101827] rounded-3xl p-8 shadow-2xl">
   <button onclick="closeQuickView()" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Tutup"><i class="fa-solid fa-xmark text-sm"></i></button>
@@ -609,21 +564,12 @@ tailwind.config = {
   </div>
 </div>
 
-<!-- ============ CHECKOUT MODAL ============ -->
 <div id="checkoutModalOverlay" class="fixed inset-0 z-[85] bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeCheckoutModal()"></div>
 <div id="checkoutModal" class="fixed left-1/2 top-1/2 z-[86] w-[95%] max-w-2xl max-h-[90vh] overflow-y-auto -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 pointer-events-none transition-all duration-300 bg-white dark:bg-[#0d1522] rounded-3xl shadow-2xl">
   <div class="p-6 sm:p-8">
     <div class="flex items-center justify-between mb-8">
       <h3 class="font-serif font-extrabold text-xl text-deep dark:text-white"><i class="fa-solid fa-clipboard-check text-gold mr-2"></i>Informasi Pengiriman</h3>
       <button onclick="closeCheckoutModal()" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Tutup"><i class="fa-solid fa-xmark text-sm"></i></button>
-    </div>
-    <div class="relative mb-9">
-      <div class="absolute top-3.5 left-[17%] right-[17%] h-0.5 bg-slate-100 dark:bg-white/10 rounded"><div id="stepProgressLine" class="h-full bg-emerald-500 rounded transition-all duration-500" style="width:0%"></div></div>
-      <div class="relative flex justify-between">
-        <div id="step1Indicator" class="flex flex-col items-center gap-1.5"><div class="w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center border-2 border-white ring-2 ring-slate-100 step-indicator active">1</div><span class="text-[9px] font-bold uppercase tracking-widest text-deep dark:text-white">Data</span></div>
-        <div id="step2Indicator" class="flex flex-col items-center gap-1.5"><div class="w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center border-2 border-white ring-2 ring-slate-100 bg-slate-100 text-slate-400 step-indicator">2</div><span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Alamat</span></div>
-        <div id="step3Indicator" class="flex flex-col items-center gap-1.5"><div class="w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center border-2 border-white ring-2 ring-slate-100 bg-slate-100 text-slate-400 step-indicator">3</div><span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Konfirmasi</span></div>
-      </div>
     </div>
     <form id="checkoutFormFull" onsubmit="event.preventDefault(); submitOrder();" class="space-y-7">
       <div data-step="1" class="grid sm:grid-cols-2 gap-4">
@@ -641,7 +587,7 @@ tailwind.config = {
       <div data-step="2" class="space-y-4">
         <div>
           <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1.5">Nama Jalan &amp; No Rumah *</label>
-          <textarea id="newAlamat" rows="2" placeholder="Minimal 20 karakter, cth: Jl. Raya Gadang No. 12, RT 03/RW 05" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1522] text-sm focus:outline-none focus:ring-4 focus:ring-gold/10 focus:border-gold transition-all resize-none"></textarea>
+          <textarea id="newAlamat" rows="2" placeholder="Minimal 20 karakter, cth: Jl. Raya Gadang No. 12" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1522] text-sm focus:outline-none focus:ring-4 focus:ring-gold/10 focus:border-gold transition-all resize-none"></textarea>
           <div id="newErrAlamat" class="error-message"><i class="fa-solid fa-circle-exclamation"></i><span>Minimal 20 karakter</span></div>
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -676,9 +622,6 @@ tailwind.config = {
             <option value="6283169386894">Admin 2 — (+62) 831-6938-6894</option>
           </select>
         </div>
-        <div class="flex justify-between items-center bg-ivory dark:bg-white/5 rounded-xl px-5 py-4 border border-slate-100 dark:border-white/10">
-          <span class="text-xs font-bold text-slate-500">Total Tagihan:</span><b id="modalTotalPrice" class="font-mono text-deep dark:text-white">Rp 0</b>
-        </div>
       </div>
       <div class="flex gap-3 pt-1">
         <button type="button" onclick="closeCheckoutModal()" class="px-6 py-3.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">Batal</button>
@@ -690,40 +633,9 @@ tailwind.config = {
   </div>
 </div>
 
-<!-- ============ REVIEW MODAL ============ -->
-<div id="reviewModalOverlay" class="fixed inset-0 z-[85] bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeReviewModal()"></div>
-<div id="reviewModal" class="fixed left-1/2 top-1/2 z-[86] w-[92%] max-w-md -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 pointer-events-none transition-all duration-300 bg-white dark:bg-[#101827] rounded-3xl p-8 shadow-2xl">
-  <div class="flex items-center justify-between mb-6">
-    <h3 class="font-serif font-extrabold text-xl text-deep dark:text-white"><i class="fa-solid fa-pen-nib text-gold mr-2"></i>Tulis Ulasan</h3>
-    <button onclick="closeReviewModal()" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Tutup"><i class="fa-solid fa-xmark text-sm"></i></button>
-  </div>
-  <form id="reviewForm" onsubmit="event.preventDefault(); submitReview();" class="space-y-4">
-    <input type="hidden" id="reviewRating" value="5">
-    <div id="starRatingSelector" class="star-rating-input">
-      <i class="fa-solid fa-star" data-rating="5" onclick="setRating(5)"></i>
-      <i class="fa-solid fa-star" data-rating="4" onclick="setRating(4)"></i>
-      <i class="fa-solid fa-star" data-rating="3" onclick="setRating(3)"></i>
-      <i class="fa-solid fa-star" data-rating="2" onclick="setRating(2)"></i>
-      <i class="fa-solid fa-star" data-rating="1" onclick="setRating(1)"></i>
-    </div>
-    <input id="reviewName" type="text" required placeholder="Nama Anda *" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1522] text-sm focus:outline-none focus:border-gold">
-    <input id="reviewStore" type="text" placeholder="Nama Toko & Kota (opsional)" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1522] text-sm focus:outline-none focus:border-gold">
-    <textarea id="reviewText" rows="3" required placeholder="Ceritakan pengalaman Anda… *" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1522] text-sm focus:outline-none focus:border-gold resize-none"></textarea>
-    <button id="submitReviewBtn" type="submit" class="w-full py-3.5 btn-gradient ripple rounded-xl text-white font-bold text-sm">Kirim Ulasan</button>
-  </form>
-</div>
-
-<!-- ============ FIXED UI ============ -->
 <div id="toast-container" class="fixed top-24 right-4 z-[95] space-y-2 w-[calc(100%-2rem)] max-w-xs"></div>
 <a href="https://wa.me/6285715905079" target="_blank" rel="noopener" class="fixed bottom-6 right-20 z-40 w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform" aria-label="Chat WhatsApp"><i class="fa-brands fa-whatsapp text-xl"></i></a>
 <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Kembali ke atas"><i class="fa-solid fa-arrow-up text-sm"></i></button>
-<div id="scrollProgress" class="fixed bottom-6 left-6 z-40 opacity-0 pointer-events-none hidden lg:block w-11 h-11">
-  <svg width="44" height="44" viewBox="0 0 44 44">
-    <circle cx="22" cy="22" r="18" stroke="rgba(148,163,184,0.3)" stroke-width="3" fill="rgba(255,255,255,0.85)"></circle>
-    <circle id="scrollCircle" cx="22" cy="22" r="18" stroke="#c8962e" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"></circle>
-  </svg>
-  <span id="scrollPercent" class="absolute inset-0 flex items-center justify-center text-[9px] font-bold font-mono text-deep">0%</span>
-</div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
