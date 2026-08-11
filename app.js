@@ -142,6 +142,34 @@ function closeMobileMenu() {
 }
 
 /* ============ 7. KATALOG ============ */
+function pseudoRating(id) {
+  var h = 0;
+  for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return Math.round((4.3 + (h % 8) / 10) * 10) / 10;
+}
+function retailPrice(price) { return Math.ceil((price / 0.87) / 1000) * 1000; }
+function renderStars(rating) {
+  var full = Math.floor(rating), half = (rating - full) >= 0.5, html = '';
+  for (var i = 0; i < 5; i++) {
+    if (i < full) html += '<i class="fa-solid fa-star"></i>';
+    else if (i === full && half) html += '<i class="fa-solid fa-star-half-stroke"></i>';
+    else html += '<i class="fa-regular fa-star"></i>';
+  }
+  return html;
+}
+function isNewProduct(id) { var n = parseInt(id.replace(/\D/g, ''), 10); return n % 11 === 0; }
+function getRibbonBadge(p) {
+  if (isNewProduct(p.id)) return { cls: 'new', label: '✨ BARU' };
+  if (p.category === 'resmi') {
+    if (p.segment === 'A' || p.segment === 'D') return { cls: 'vip', label: '👑 VIP' };
+    if (p.segment === 'B') return { cls: 'hit', label: '🔥 TERLARIS' };
+    return null;
+  }
+  var tier = getR2Tier(p.price);
+  if (tier === 'premium') return { cls: 'vip', label: '👑 VIP' };
+  if (tier === 'populer') return { cls: 'hit', label: '🔥 TERLARIS' };
+  return null;
+}
 window.switchCatalog = function (cat) {
   if (cat !== 'r2' && cat !== 'resmi') return;
   activeCatalog = cat; activeFilter = 'all'; currentPage = 1; searchTerm = '';
@@ -216,49 +244,62 @@ function generateProductPlaceholder(name, size, uid) {
 }
 function buildCardActions(p) {
   var q = getCartQty(p.id);
-  return q > 0
-    ? '<div class="flex items-center justify-between border-2 border-gold rounded-xl bg-gold/5 p-1 mt-4 stepper-enter"><button onclick="window.__updateQty(\'' + p.id + '\',-1)" class="w-9 h-9 rounded-lg bg-white text-deep font-bold shadow-sm hover:bg-slate-50 active:scale-95 transition-transform">-</button><span class="font-bold text-deep dark:text-white">' + q + '</span><button onclick="window.__updateQty(\'' + p.id + '\',1)" class="w-9 h-9 rounded-lg bg-gold text-white font-bold shadow-sm hover:bg-gold/80 active:scale-95 transition-transform">+</button></div>'
-    : '<button onclick="window.__addCart(\'' + p.id + '\')" class="w-full mt-4 py-3 bg-ivory dark:bg-white/5 text-deep dark:text-white font-bold rounded-xl hover:bg-deep hover:text-white transition-colors text-sm flex items-center justify-center gap-2 border border-slate-200 dark:border-white/10"><i class="fa-solid fa-plus text-xs"></i> Tambah</button>';
+  var main = q > 0
+    ? '<div class="mp-stepper stepper-enter"><button onclick="window.__updateQty(\'' + p.id + '\',-1)" class="mp-step-btn">-</button><span class="mp-step-val">' + q + '</span><button onclick="window.__updateQty(\'' + p.id + '\',1)" class="mp-step-btn mp-step-btn-gold">+</button></div>'
+    : '<button onclick="window.__addCart(\'' + p.id + '\')" class="mp-add-btn"><i class="fa-solid fa-cart-plus"></i> Keranjang</button>';
+  return '<div class="mp-actions">' + main + '<button onclick="openQuickView(\'' + p.id + '\')" class="mp-quick-btn" aria-label="Lihat Cepat"><i class="fa-solid fa-eye"></i></button></div>';
+}
+function buildRowActions(p) {
+  var q = getCartQty(p.id);
+  var main = q > 0
+    ? '<div class="mp-stepper sm stepper-enter"><button onclick="window.__updateQty(\'' + p.id + '\',-1)" class="mp-step-btn">-</button><span class="mp-step-val">' + q + '</span><button onclick="window.__updateQty(\'' + p.id + '\',1)" class="mp-step-btn mp-step-btn-gold">+</button></div>'
+    : '<button onclick="window.__addCart(\'' + p.id + '\')" class="mp-add-btn sm" aria-label="Tambah ke Keranjang"><i class="fa-solid fa-cart-plus"></i></button>';
+  return main + '<button onclick="openQuickView(\'' + p.id + '\')" class="mp-quick-btn sm" aria-label="Lihat Cepat"><i class="fa-solid fa-eye"></i></button>';
 }
 function buildProductCardHTML(p, idx) {
-  var isResmi = p.category === 'resmi', badge = '';
-  if (isResmi) {
-    var segL = { A: 'PREMIUM', B: 'REGULER', C: 'MILD', D: 'INTERNATIONAL', E: 'LEGACY' };
-    var segI = { A: 'gem', B: 'star', C: 'leaf', D: 'globe', E: 'hand-holding-heart' };
-    badge = '<span class="segment-badge segment-' + p.segment + '"><i class="fa-solid fa-' + segI[p.segment] + '"></i> SEG ' + p.segment + ' · ' + segL[p.segment] + '</span>';
-  } else {
-    var ti = getR2Tier(p.price);
-    badge = ti === 'hemat' ? '<span class="segment-badge tier-hemat"><i class="fa-solid fa-piggy-bank"></i> HEMAT</span>' : ti === 'premium' ? '<span class="segment-badge tier-premium"><i class="fa-solid fa-crown"></i> PREMIUM</span>' : '<span class="segment-badge tier-populer"><i class="fa-solid fa-fire"></i> POPULER</span>';
-  }
-  var catInd = isResmi
-    ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI</span>'
-    : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep dark:text-slate-200 bg-deep/5 dark:bg-white/10 px-2 py-0.5 rounded-md border border-deep/10 dark:border-white/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2</span>';
+  var isResmi = p.category === 'resmi';
+  var tag = isResmi
+    ? '<span class="mp-tag mp-tag-resmi"><i class="fa-solid fa-certificate"></i> RESMI</span>'
+    : '<span class="mp-tag mp-tag-r2"><i class="fa-solid fa-fire-flame-curved"></i> R2</span>';
+  var catLabel = isResmi ? (p.segmentName || 'Katalog Resmi') : 'Katalog R2 Nusantara';
+  var rating = pseudoRating(p.id);
+  var ribbon = getRibbonBadge(p);
+  var ribbonHTML = ribbon ? '<div class="mp-ribbon mp-ribbon-' + ribbon.cls + '">' + ribbon.label + '</div>' : '';
   var wl = isWishlisted(p.id);
-  var actions = '<div class="absolute top-4 right-4 z-20 flex flex-col gap-2">' +
-    '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" data-wish-heart="' + p.id + '" class="wishlist-heart-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart text-xs"></i></button>' +
-    '<button onclick="openQuickView(\'' + p.id + '\')" class="quickview-btn" aria-label="Lihat Cepat"><i class="fa-solid fa-eye text-xs"></i></button></div>';
-  var ph = '<div class="product-image-placeholder mb-4 rounded-xl overflow-hidden w-full aspect-[4/3] border border-slate-100 dark:border-white/5">' + generateProductPlaceholder(p.name, 'medium', p.id) + '</div>';
-  return '<div class="bg-white dark:bg-white/5 rounded-3xl p-6 border border-slate-200 dark:border-white/10 card-premium card-glow relative overflow-hidden flex flex-col justify-between group card-enter' + (isResmi ? ' product-card-resmi' : '') + '" style="animation-delay:' + (idx * 40) + 'ms" data-pid="' + p.id + '">' +
-    actions + ph +
-    '<div class="relative z-10"><div class="flex justify-between items-start mb-3 gap-2">' + badge + '<div class="flex flex-col items-end gap-1 shrink-0">' + catInd + '<span class="text-slate-300 text-[10px] font-mono font-bold">' + p.id.toUpperCase() + '</span></div></div>' +
-    '<h3 class="text-lg font-serif font-bold text-deep dark:text-white leading-tight mb-1 group-hover:text-gold transition-colors">' + escapeHtml(p.name) + '</h3>' +
-    (isResmi ? '<p class="text-[10px] text-slate-500 font-medium mb-2 italic">' + escapeHtml(p.segmentName) + '</p>' : '') +
-    '<p class="text-2xl font-black text-deep dark:text-white font-mono tracking-tighter">' + formatRupiah(p.price) + '<span class="text-[10px] text-slate-400 font-sans font-medium ml-1">/slop</span></p></div>' +
-    '<div class="relative z-10">' + buildCardActions(p) + '</div></div>';
+  var wishBtn = '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" data-wish-heart="' + p.id + '" class="mp-wish-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart"></i></button>';
+  var retail = retailPrice(p.price);
+  var savingsPct = Math.max(1, Math.round((1 - p.price / retail) * 100));
+  var ph = generateProductPlaceholder(p.name, 'medium', p.id);
+  return '<div class="mp-card card-glow card-enter' + (isResmi ? ' mp-card-resmi' : '') + '" style="animation-delay:' + (idx * 40) + 'ms" data-pid="' + p.id + '">' +
+    '<div class="mp-card-media">' + ribbonHTML + wishBtn + '<div class="mp-card-img">' + ph + '</div></div>' +
+    '<div class="mp-card-body">' +
+    '<div class="mp-card-toprow">' + tag + '<span class="mp-id">' + p.id.toUpperCase() + '</span></div>' +
+    '<p class="mp-cat">' + escapeHtml(catLabel) + '</p>' +
+    '<h3 class="mp-name">' + escapeHtml(p.name) + '</h3>' +
+    '<div class="mp-rating"><span class="mp-stars">' + renderStars(rating) + '</span><span class="mp-rating-num">' + rating.toFixed(1) + '</span></div>' +
+    '<div class="mp-price-row"><span class="mp-price-old">' + formatRupiah(retail) + '</span><span class="mp-save-badge">Hemat ' + savingsPct + '%</span></div>' +
+    '<div class="mp-price-now">' + formatRupiah(p.price) + '<span class="mp-price-unit">/slop grosir</span></div>' +
+    buildCardActions(p) +
+    '</div></div>';
 }
 function buildProductRowHTML(p, idx) {
   var isResmi = p.category === 'resmi', wl = isWishlisted(p.id);
+  var rating = pseudoRating(p.id), ribbon = getRibbonBadge(p), retail = retailPrice(p.price);
   var catBadge = isResmi
-    ? '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200"><i class="fa-solid fa-certificate text-[8px]"></i> RESMI · SEG ' + p.segment + '</span>'
-    : '<span class="inline-flex items-center gap-1 text-[9px] font-bold text-deep bg-deep/5 px-1.5 py-0.5 rounded border border-deep/10"><i class="fa-solid fa-fire-flame-curved text-[8px]"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
-  var thumb = '<div class="product-thumbnail mr-3 shrink-0 rounded-lg overflow-hidden">' + generateProductPlaceholder(p.name, 'small', p.id) + '</div>';
-  return '<div class="product-table-row' + (isResmi ? ' is-resmi' : '') + '" style="animation-delay:' + (idx * 25) + 'ms" data-pid="' + p.id + '">' +
-    '<div class="flex items-center gap-3 min-w-0">' + thumb + '<div class="min-w-0"><div class="pt-name truncate">' + escapeHtml(p.name) + '</div><div class="mt-1">' + catBadge + '</div></div></div>' +
-    '<div class="pt-price">' + formatRupiah(p.price) + '</div>' +
+    ? '<span class="mp-row-tag mp-tag-resmi"><i class="fa-solid fa-certificate"></i> RESMI · SEG ' + p.segment + '</span>'
+    : '<span class="mp-row-tag mp-tag-r2"><i class="fa-solid fa-fire-flame-curved"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
+  var thumb = '<div class="mp-row-thumb">' + generateProductPlaceholder(p.name, 'small', p.id) + '</div>';
+  return '<div class="mp-row' + (isResmi ? ' is-resmi' : '') + '" style="animation-delay:' + (idx * 25) + 'ms" data-pid="' + p.id + '">' +
+    '<div class="mp-row-main">' + thumb + '<div class="min-w-0">' +
+    (ribbon ? '<span class="mp-row-ribbon mp-ribbon-' + ribbon.cls + '">' + ribbon.label + '</span>' : '') +
+    '<div class="mp-row-name truncate">' + escapeHtml(p.name) + '</div>' +
+    '<div class="mp-row-rating"><span class="mp-stars sm">' + renderStars(rating) + '</span><span class="mp-rating-num">' + rating.toFixed(1) + '</span><span class="mt-1">' + catBadge + '</span></div>' +
+    '</div></div>' +
+    '<div class="mp-row-price"><span class="mp-price-old sm">' + formatRupiah(retail) + '</span><span class="mp-price-now sm">' + formatRupiah(p.price) + '</span></div>' +
     '<div class="text-[11px] font-bold text-slate-500 hidden md:block">' + p.id.toUpperCase() + '</div>' +
-    '<div class="pt-actions flex items-center justify-end gap-2">' +
-    '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" data-wish-heart="' + p.id + '" class="wishlist-heart-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart text-xs"></i></button>' +
-    buildCardActions(p).replace('mt-4', '').replace('w-full', 'w-auto') + '</div></div>';
+    '<div class="mp-row-actions">' +
+    '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" data-wish-heart="' + p.id + '" class="mp-wish-btn sm' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart"></i></button>' +
+    buildRowActions(p) + '</div></div>';
 }
 function renderProductDisplay() {
   var processed = getProcessedProducts();
