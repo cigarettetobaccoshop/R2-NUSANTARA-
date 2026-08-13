@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cigarettetobaccoshop.github.io/id.com/sitemap.xml
