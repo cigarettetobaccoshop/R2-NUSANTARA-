@@ -14,10 +14,12 @@ body {
   background-color: var(--color-bg);
   color: #1a1a1a;
   font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   transition: background-color .3s ease, color .3s ease;
 }
+h1, h2, h3, h4 { line-height: 1.2; }
 section[id] { scroll-margin-top: 96px; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
