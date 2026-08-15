@@ -1,11 +1,11 @@
-const CACHE_NAME = 'r2-nusantara-v3';
+const CACHE_NAME = 'r2-nusantara-v4';
 const urlsToCache = [
-  '/R2-Nusantara/',
-  '/R2-Nusantara/index.html',
-  '/R2-Nusantara/style.css',
-  '/R2-Nusantara/app.js',
-  '/R2-Nusantara/data.js',
-  '/R2-Nusantara/manifest.json'
+  '/id.com/',
+  '/id.com/index.html',
+  '/id.com/style.css',
+  '/id.com/app.js',
+  '/id.com/data.js',
+  '/id.com/manifest.json'
 ];
 
 self.addEventListener('install', event => {
