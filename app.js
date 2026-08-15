@@ -549,6 +549,16 @@ function updateCartUI() {
  }).join('');
  }
  var mp = document.getElementById('modalTotalPrice'); if (mp) mp.innerText = formatRupiah(tp);
+ var cic = document.getElementById('checkoutItemCount'), csl = document.getElementById('checkoutSummaryList'), csub = document.getElementById('checkoutSubtotal'), ofb = document.querySelector('.ongkir-free-badge');
+ if (cic) cic.textContent = t + ' item';
+ if (csub) csub.textContent = formatRupiah(tp);
+ if (csl) csl.innerHTML = cart.length ? cart.map(function (i) {
+ return '<div class="checkout-summary-item"><span class="checkout-summary-item-name">' + escapeHtml(i.name) + ' <b class="text-slate-400 font-normal">×' + i.qty + '</b></span><span class="checkout-summary-item-price">' + formatRupiah(i.price * i.qty) + '</span></div>';
+ }).join('') : '<p class="text-xs text-slate-400 text-center py-3">Keranjang kosong</p>';
+ if (ofb) {
+ if (t >= 20) { ofb.innerHTML = '<i class="fa-solid fa-circle-check"></i> GRATIS (syarat terpenuhi)'; ofb.classList.add('is-qualified'); }
+ else { ofb.innerHTML = '<i class="fa-solid fa-circle-info"></i> Gratis jika ≥ 1 Bal (' + (20 - t) + ' slop lagi)'; ofb.classList.remove('is-qualified'); }
+ }
  renderProductDisplay();
 }
 window.toggleCart = function () {
@@ -578,7 +588,7 @@ window.closeCheckoutModal = function () {
  document.body.style.overflow = '';
 };
 function updateProgressStep(n) {
- var inds = [document.getElementById('step1Indicator'), document.getElementById('step2Indicator'), document.getElementById('step3Indicator')];
+ var inds = [document.getElementById('step1Indicator'), document.getElementById('step2Indicator'), document.getElementById('step3Indicator'), document.getElementById('step4Indicator')];
  var line = document.getElementById('stepProgressLine');
  inds.forEach(function (ind, idx) {
  if (!ind) return;
@@ -586,7 +596,7 @@ function updateProgressStep(n) {
  num.className = 'w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center transition-colors duration-300 border-2 border-white ring-2 ring-slate-100 step-indicator ' + (idx + 1 === n ? 'active shadow-sm' : (idx + 1 < n ? 'completed shadow-sm' : 'bg-slate-100 text-slate-400'));
  txt.className = 'text-[9px] font-bold uppercase tracking-widest ' + (idx + 1 === n ? 'text-deep' : (idx + 1 < n ? 'text-gold' : 'text-slate-400'));
  });
- if (line) line.style.width = (n === 1 ? 0 : n === 2 ? 50 : 100) + '%';
+ if (line) line.style.width = (n === 1 ? 0 : n === 2 ? 33 : n === 3 ? 66 : 100) + '%';
 }
 function showError(f, e, msg) {
  var F = document.getElementById(f), E = document.getElementById(e);
@@ -609,7 +619,7 @@ function validateCheckoutForm() {
  var al = document.getElementById('newAlamat');
  if (al && al.value.trim().length >= 20) clearError('newAlamat', 'newErrAlamat');
  else { if (al && al.value.trim().length > 0) showError('newAlamat', 'newErrAlamat', 'Minimal 20 karakter'); ok = false; }
- ['newProvinsi', 'newKota', 'newKecamatan', 'newKelurahan', 'newKodePos', 'newEkspedisi', 'newMetode', 'newAdmin'].forEach(function (id) {
+ ['newProvinsi', 'newKota', 'newKodePos', 'newEkspedisi', 'newMetode', 'newAdmin'].forEach(function (id) {
  var el = document.getElementById(id); if (!el || !el.value.trim()) ok = false;
  });
  var btn = document.getElementById('finalCheckoutBtn');
@@ -627,7 +637,7 @@ window.submitOrder = function () {
  var total = cart.reduce(function (s, i) { return s + i.qty; }, 0);
  var r2 = cart.filter(function (i) { return i.category === 'r2'; });
  var resmi = cart.filter(function (i) { return i.category === 'resmi'; });
- var addr = g('newAlamat').value.trim() + ' (Patokan: ' + (g('newPatokan').value.trim() || '-') + ')\nKel: ' + g('newKelurahan').value.trim() + ', Kec: ' + g('newKecamatan').value.trim() + '\n' + g('newKota').value.trim() + ', ' + g('newProvinsi').value.trim() + ' - ' + g('newKodePos').value.trim();
+ var addr = g('newAlamat').value.trim() + '\n' + g('newKota').value.trim() + ', ' + g('newProvinsi').value.trim() + ' - ' + g('newKodePos').value.trim();
  var m = '📝 *ORDER R2 NUSANTARA (ENTERPRISE)*\n\n👤 *Nama:* ' + g('newCustName').value.trim() + '\n📱 *No. HP:* +62 ' + g('newCustPhone').value.trim() + '\n📍 *Alamat Pengiriman:*\n' + addr + '\n\n🚚 *Ekspedisi:* ' + g('newEkspedisi').value + '\n💳 *Pembayaran:* ' + g('newMetode').value + '\n\n';
  if (r2.length) { m += '*🔥 KATALOG R2:*\n'; r2.forEach(function (i) { m += '• ' + i.name + ' — ' + i.qty + ' slop\n'; }); m += '\n'; }
  if (resmi.length) { m += '*🏅 KATALOG RESMI:*\n'; resmi.forEach(function (i) { m += '• ' + i.name + ' — ' + i.qty + ' slop\n'; }); m += '\n'; }
@@ -638,6 +648,7 @@ window.submitOrder = function () {
  var f = document.getElementById('checkoutFormFull'); if (f) f.reset();
  btn.classList.remove('checkout-success'); btnText.textContent = 'Konfirmasi Pesanan'; btnIcon.className = 'fa-brands fa-whatsapp text-lg';
  validateCheckoutForm();
+ updateProgressStep(4);
  setTimeout(openSuccessPopup, 400);
  }, 800);
  }, 1500);
@@ -721,6 +732,35 @@ window.handleNewsletterSubmit = function (form) {
 
 /* Grid logo ekspedisi <-> <select id="newEkspedisi"> (select tetap jadi satu-satunya sumber data,
  supaya validateCheckoutForm() & submitOrder() tidak perlu diubah sama sekali). */
+/* Deteksi kota & provinsi otomatis via GPS browser (opt-in, user klik tombolnya sendiri) */
+window.detectLocation = function () {
+ var btn = document.getElementById('detectLocationBtn');
+ if (!navigator.geolocation) { showToast('Perangkat tidak mendukung deteksi lokasi', 'error'); return; }
+ var orig = btn.innerHTML;
+ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mendeteksi…';
+ navigator.geolocation.getCurrentPosition(function (pos) {
+ var lat = pos.coords.latitude, lon = pos.coords.longitude;
+ fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lon + '&zoom=12&addressdetails=1')
+ .then(function (r) { return r.json(); })
+ .then(function (data) {
+ var a = data && data.address ? data.address : {};
+ var kota = a.city || a.town || a.municipality || a.county || '';
+ var provinsi = a.state || '';
+ var kodepos = a.postcode || '';
+ if (kota) document.getElementById('newKota').value = kota;
+ if (provinsi) document.getElementById('newProvinsi').value = provinsi;
+ if (kodepos) document.getElementById('newKodePos').value = kodepos;
+ if (kota || provinsi) { showToast('Lokasi terdeteksi: ' + (kota || '-') + ', ' + (provinsi || '-')); validateCheckoutForm(); }
+ else showToast('Kota tidak terdeteksi, isi manual ya', 'error');
+ })
+ .catch(function () { showToast('Gagal mendeteksi lokasi, isi manual ya', 'error'); })
+ .finally(function () { btn.disabled = false; btn.innerHTML = orig; });
+ }, function () {
+ showToast('Izin lokasi ditolak, isi manual ya', 'error');
+ btn.disabled = false; btn.innerHTML = orig;
+ }, { timeout: 10000 });
+};
+
 function initEkspedisiPicker() {
  var sel = document.getElementById('newEkspedisi'), picker = document.getElementById('ekspedisiPicker');
  if (!sel || !picker) return;
