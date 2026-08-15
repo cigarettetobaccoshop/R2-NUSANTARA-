@@ -239,8 +239,8 @@ tailwind.config = {
  </div>
  <a href="#produk" class="btn-outline px-5 py-2.5 rounded-xl text-xs font-bold">Lihat semua <i class="fa-solid fa-arrow-right ml-1"></i></a>
  </div>
- <div class="grid md:grid-cols-3 gap-6">
- <div class="featured-card card-enter bg-white rounded-3xl border border-slate-200 p-6 relative overflow-hidden group fade-on-scroll">
+ <div class="grid md:grid-cols-3 gap-6 md:items-start">
+ <div class="featured-card card-enter bg-white rounded-3xl border border-slate-200 p-6 relative overflow-hidden group fade-on-scroll md:mt-6">
  <div class="absolute top-5 left-6 z-20 flex gap-2">
  <span class="pick-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Editor's Pick</span>
  <span class="pick-badge hot"><i class="fa-solid fa-fire"></i> Best Seller</span>
@@ -258,7 +258,7 @@ tailwind.config = {
  </div>
  <button onclick="window.__addCart('resmi-7')" class="w-full mt-4 py-3 bg-deep text-white font-bold rounded-xl hover:bg-gold transition-colors text-sm ripple"><i class="fa-solid fa-plus text-xs mr-1"></i> Tambah ke Keranjang</button>
  </div>
- <div class="featured-card card-enter bg-white rounded-3xl border border-slate-200 p-6 relative overflow-hidden group fade-on-scroll" style="animation-delay:80ms">
+ <div class="featured-card card-enter bg-white rounded-3xl border-2 border-gold/40 p-6 relative overflow-hidden group fade-on-scroll shadow-xl shadow-gold/10" style="animation-delay:80ms">
  <div class="absolute top-5 left-6 z-20 flex gap-2"><span class="pick-badge"><i class="fa-solid fa-crown text-gold"></i> Legendaris</span></div>
  <div class="absolute top-5 right-6 z-20 flex flex-col gap-2">
  <button onclick="toggleWishlistItem('resmi-4', event)" data-wish-heart="resmi-4" class="wishlist-heart-btn" aria-label="Wishlist"><i class="fa-regular fa-heart text-xs"></i></button>
@@ -273,7 +273,7 @@ tailwind.config = {
  </div>
  <button onclick="window.__addCart('resmi-4')" class="w-full mt-4 py-3 bg-deep text-white font-bold rounded-xl hover:bg-gold transition-colors text-sm ripple"><i class="fa-solid fa-plus text-xs mr-1"></i> Tambah ke Keranjang</button>
  </div>
- <div class="featured-card card-enter bg-white rounded-3xl border border-slate-200 p-6 relative overflow-hidden group fade-on-scroll" style="animation-delay:160ms">
+ <div class="featured-card card-enter bg-white rounded-3xl border border-slate-200 p-6 relative overflow-hidden group fade-on-scroll md:mt-6" style="animation-delay:160ms">
  <div class="absolute top-5 left-6 z-20 flex gap-2"><span class="pick-badge hot"><i class="fa-solid fa-arrow-trend-up"></i> Highest Margin</span></div>
  <div class="absolute top-5 right-6 z-20 flex flex-col gap-2">
  <button onclick="toggleWishlistItem('r2-151', event)" data-wish-heart="r2-151" class="wishlist-heart-btn" aria-label="Wishlist"><i class="fa-regular fa-heart text-xs"></i></button>
@@ -300,20 +300,20 @@ tailwind.config = {
  <h2 data-word-reveal class="section-title">Sistem B2B Tanpa Risiko.</h2>
  <p class="text-sm text-slate-500 mt-3 max-w-xl mx-auto">Dirancang khusus untuk keamanan dan kenyamanan mitra grosir di seluruh Indonesia.</p>
  </div>
- <div class="grid md:grid-cols-3 gap-6">
+ <div class="grid md:grid-cols-3 gap-6 md:items-start">
  <div class="why-card card-glow card-premium bg-white rounded-3xl p-8 border border-slate-200 fade-on-scroll">
  <div class="why-icon wi-emerald"><i class="fa-solid fa-file-invoice-dollar"></i></div>
  <h3 class="font-serif font-bold text-lg text-deep mt-5">Bayar Setelah Resi Keluar</h3>
  <p class="text-sm text-slate-500 mt-2 leading-relaxed">Tidak ada transfer di awal. Tagihan dibayar setelah barang masuk ekspedisi dan resi terbit. 100% Anti Penipuan.</p>
  <div class="mt-5 flex gap-2"><span class="trust-badge"><i class="fa-solid fa-shield-halved text-emerald-500"></i> Aman</span><span class="trust-badge"><i class="fa-solid fa-eye text-brand-700"></i> Transparan</span></div>
  </div>
- <div class="why-card card-glow card-premium bg-white rounded-3xl p-8 border border-slate-200 fade-on-scroll" style="transition-delay:100ms">
+ <div class="why-card card-glow card-premium bg-white rounded-3xl p-8 border border-slate-200 fade-on-scroll md:-mt-5" style="transition-delay:100ms">
  <div class="why-icon wi-silver"><i class="fa-solid fa-video"></i></div>
  <h3 class="font-serif font-bold text-lg text-deep mt-5">Real-time Packing</h3>
  <p class="text-sm text-slate-500 mt-2 leading-relaxed">Dokumentasi foto &amp; video langsung dari gudang hingga packing. Mitra melihat pesanan disiapkan secara transparan.</p>
  <div class="mt-5 flex gap-2"><span class="trust-badge"><i class="fa-solid fa-camera text-gold"></i> Foto</span><span class="trust-badge"><i class="fa-solid fa-clapperboard text-gold"></i> Video</span></div>
  </div>
- <div class="why-card card-glow card-premium bg-white rounded-3xl p-8 border border-slate-200 fade-on-scroll" style="transition-delay:200ms">
+ <div class="why-card card-glow card-premium bg-white rounded-3xl p-8 border border-slate-200 fade-on-scroll md:-mt-10" style="transition-delay:200ms">
  <div class="why-icon wi-blue"><i class="fa-solid fa-truck-fast"></i></div>
  <h3 class="font-serif font-bold text-lg text-deep mt-5">Subsidi Ongkos Kirim</h3>
  <p class="text-sm text-slate-500 mt-2 leading-relaxed">Dapatkan gratis ongkir langsung dari gudang tanpa syarat tersembunyi. Minimal 1 Bal (20 Slop).</p>
@@ -528,7 +528,7 @@ tailwind.config = {
  <iframe src="https://maps.google.com/maps?q=Malang%2C%20Jawa%20Timur%2C%20Indonesia&z=12&output=embed&hl=id" class="w-full h-[380px] lg:h-full lg:min-h-[460px] block" style="border:0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="Peta Lokasi Gudang R2 Nusantara Malang"></iframe>
  <div class="map-overlay-pill glass-dark"><i class="fa-solid fa-location-dot text-gold"></i> Gudang R2 Nusantara — Malang, Jawa Timur</div>
  </div>
- <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-7 flex flex-col gap-5 fade-on-scroll" style="transition-delay:120ms">
+ <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-7 flex flex-col gap-5 fade-on-scroll lg:-ml-10 relative z-10 shadow-2xl shadow-deep/10" style="transition-delay:120ms">
  <img src="assets/logo/hero-bg.jpg" alt="Area loading gudang R2 Nusantara" loading="lazy" class="rounded-2xl h-36 w-full object-cover" onerror="__imgFail(this,400,144,'GUDANG R2')">
  <div class="flex items-start gap-4">
  <div class="logo-frame logo-frame-sm shrink-0">
