@@ -761,6 +761,22 @@ window.detectLocation = function () {
  }, { timeout: 10000 });
 };
 
+/* Search bar besar di header (mobile/tablet) — proxy murni ke #searchInput katalog yang sudah ada,
+ supaya tidak ada duplikasi logic dan katalog tidak perlu diubah sama sekali. */
+window.runHeaderSearch = function () {
+ var hi = document.getElementById('headerSearchInput'), si = document.getElementById('searchInput');
+ if (!hi || !si || !hi.value.trim()) return;
+ si.value = hi.value.trim();
+ document.getElementById('produk').scrollIntoView({ behavior: 'smooth', block: 'start' });
+ si.dispatchEvent(new Event('input', { bubbles: true }));
+ setTimeout(function () { si.focus(); }, 500);
+};
+function initHeaderSearch() {
+ var hi = document.getElementById('headerSearchInput');
+ if (!hi) return;
+ hi.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); runHeaderSearch(); } });
+}
+
 function initEkspedisiPicker() {
  var sel = document.getElementById('newEkspedisi'), picker = document.getElementById('ekspedisiPicker');
  if (!sel || !picker) return;
@@ -784,6 +800,7 @@ document.addEventListener('DOMContentLoaded', function () {
  initTextAnimations();
  initCookieConsent();
  initEkspedisiPicker();
+ initHeaderSearch();
  updateWishlistUI();
  renderRecentlyViewed();
  buildFilterChips();

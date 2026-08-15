@@ -472,3 +472,11 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .detect-location-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--color-accent); background: rgba(15,61,110,.06); border: 1px solid rgba(15,61,110,.16); padding: 5px 11px; border-radius: 99px; cursor: pointer; transition: all .2s; }
 .detect-location-btn:hover { background: rgba(15,61,110,.12); }
 .detect-location-btn:disabled { opacity: .6; cursor: wait; }
+
+/* ============= HEADER SEARCH BAR (MOBILE/TABLET) ============= */
+.header-search-bar { display: flex; align-items: center; gap: 8px; background: #fff; border: 1.5px solid var(--color-border); border-radius: 1rem; padding: 4px 6px 4px 16px; box-shadow: 0 10px 30px -14px rgba(15,61,110,.25); }
+.header-search-bar i { color: var(--color-gold); font-size: 15px; }
+.header-search-bar input { flex: 1; min-width: 0; border: none; outline: none; font-size: 14px; padding: 10px 4px; background: transparent; color: var(--color-accent); }
+.header-search-bar input::placeholder { color: #94a3b8; }
+.header-search-go { flex-shrink: 0; padding: 9px 16px; border-radius: .75rem; background: var(--color-accent); color: #fff; font-size: 12px; font-weight: 800; border: none; cursor: pointer; transition: background .2s; }
+.header-search-go:hover, .header-search-go:active { background: var(--color-gold); }

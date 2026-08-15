@@ -68,15 +68,11 @@ tailwind.config = {
  }
 };
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter/400.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter/500.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter/600.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter/700.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter/800.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display/700.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display/800.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono/400.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono/600.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=IBM+Plex+Mono:wght@400;600;700;800&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -134,6 +130,13 @@ tailwind.config = {
  </button>
  </div>
  </div>
+ <div class="lg:hidden mx-auto max-w-7xl mt-2">
+ <div class="header-search-bar">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <input id="headerSearchInput" type="text" inputmode="search" enterkeyhint="search" placeholder="Cari merek rokok… (cth: Marlboro, DSS)" autocomplete="off" aria-label="Cari produk">
+ <button type="button" onclick="runHeaderSearch()" class="header-search-go" aria-label="Cari">Cari</button>
+ </div>
+ </div>
  <div id="mobileMenu" class="lg:hidden hidden mx-auto max-w-7xl mt-2 rounded-2xl glass-dark p-4 space-y-1 shadow-2xl">
  <a href="#beranda" class="mobile-link"><i class="fa-solid fa-house w-5"></i> Beranda</a>
  <a href="#why" class="mobile-link"><i class="fa-solid fa-shield-halved w-5"></i> Keunggulan</a>
@@ -145,7 +148,7 @@ tailwind.config = {
 </header>
 
 <!-- ============ HERO ============ -->
-<section id="beranda" class="relative overflow-hidden pt-32 sm:pt-36 pb-16">
+<section id="beranda" class="relative overflow-hidden pt-44 lg:pt-36 pb-16">
  <div class="hero-bg" aria-hidden="true"></div>
  <div class="watermark-float" aria-hidden="true"></div>
  <div class="hero-blob blob-1"></div>
@@ -735,6 +738,7 @@ tailwind.config = {
  <div>
  <label for="newAlamat" class="text-[10px] font-bold uppercase tracking-widest text-slate-500 block mb-1.5">Alamat Lengkap *</label>
  <textarea id="newAlamat" rows="2" placeholder="Jl., No. Rumah, RT/RW, Kelurahan, Kecamatan, patokan (min. 20 karakter)" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-gold/10 focus:border-gold transition-all resize-none"></textarea>
+ <p class="text-[10px] text-slate-400 mt-1.5 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Pastikan sertakan kecamatan &amp; kelurahan agar kurir tidak salah antar.</p>
  <div id="newErrAlamat" class="error-message"><i class="fa-solid fa-circle-exclamation"></i><span>Minimal 20 karakter</span></div>
  </div>
  <div class="flex items-center justify-between">
