@@ -109,12 +109,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* ============= MARQUEE ============= */
 .marquee-wrap { overflow: hidden; }
-.marquee-track { display: flex; align-items: center; gap: 3.5rem; width: max-content; animation: marqueeScroll 26s linear infinite; }
+.marquee-track { display: flex; align-items: center; gap: 2.25rem; width: max-content; animation: marqueeScroll 26s linear infinite; }
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 .marquee-item { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #94a3b8; white-space: nowrap; }
 .marquee-item.gold { color: var(--color-gold); }
-.marquee-logo img { height: 22px; width: auto; max-width: 92px; object-fit: contain; filter: grayscale(55%) opacity(.8); transition: filter .25s var(--transition-smooth); }
+.marquee-logo { background: #fff; border: 1px solid var(--color-border); border-radius: 1rem; padding: 10px 22px; box-shadow: 0 6px 18px -10px rgba(15,61,110,.18); transition: transform .35s var(--transition-smooth), box-shadow .35s, border-color .35s; }
+.marquee-logo img { height: 34px; width: auto; max-width: 128px; object-fit: contain; filter: grayscale(45%) opacity(.85); transition: filter .3s var(--transition-smooth); }
 .marquee-wrap:hover .marquee-logo img { filter: grayscale(0%) opacity(1); }
+.marquee-logo:hover { transform: scale(1.15) translateY(-4px); box-shadow: 0 14px 32px -10px rgba(15,61,110,.32); border-color: rgba(15,61,110,.3); z-index: 2; }
+@media (max-width: 639px) { .marquee-logo { padding: 8px 16px; border-radius: .8rem; } .marquee-logo img { height: 26px; max-width: 96px; } }
 @keyframes marqueeScroll { to { transform: translateX(-50%); } }
 
 /* ============= BUTTONS ============= */
