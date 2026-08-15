@@ -45,6 +45,7 @@
 <script>
 window.__logoFail=function(img,s){var d=document.createElement('div');d.className='logo-core font-serif '+(s==='lg'?'text-2xl':'text-sm');d.textContent='R2';if(img.replaceWith)img.replaceWith(d);else img.outerHTML=d.outerHTML;};
 window.__imgFail=function(img,w,h,label){img.onerror=null;var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0F3D6E"/><stop offset="100%" stop-color="#0A2A4D"/></linearGradient></defs><rect width="'+w+'" height="'+h+'" fill="url(#g)"/><text x="'+(w/2)+'" y="'+(h/2)+'" font-family="Inter,sans-serif" font-size="'+Math.round(h*0.08)+'" font-weight="800" fill="#D7DEE6" text-anchor="middle" dominant-baseline="middle" letter-spacing="2">'+label+'</text></svg>';img.src='data:image/svg+xml;utf8,'+encodeURIComponent(svg);};
+window.__ekspFail=function(img){img.onerror=null;var i=document.createElement('i');i.className='fa-solid fa-truck-fast eksp-fallback-icon';if(img.replaceWith)img.replaceWith(i);else img.outerHTML=i.outerHTML;};
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -737,9 +738,15 @@ tailwind.config = {
  <div class="grid sm:grid-cols-2 gap-4">
  <div>
  <label for="newEkspedisi" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1.5">Ekspedisi *</label>
- <select id="newEkspedisi" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-gold">
+ <select id="newEkspedisi" class="sr-only">
  <option value="">— Pilih Ekspedisi —</option><option>JNE</option><option>J&amp;T</option><option>SiCepat Express</option><option>Indah Cargo</option>
  </select>
+ <div id="ekspedisiPicker" class="ekspedisi-picker" role="group" aria-label="Pilih Ekspedisi">
+ <button type="button" class="eksp-card" data-eksp="JNE"><span class="eksp-card-img"><img src="assets/ekspedisi/jne-express.png" alt="JNE" loading="lazy" onerror="__ekspFail(this)"></span><span class="eksp-card-label">JNE</span></button>
+ <button type="button" class="eksp-card" data-eksp="J&amp;T"><span class="eksp-card-img"><img src="assets/ekspedisi/j&amp;t-express.png" alt="J&amp;T" loading="lazy" onerror="__ekspFail(this)"></span><span class="eksp-card-label">J&amp;T</span></button>
+ <button type="button" class="eksp-card" data-eksp="SiCepat Express"><span class="eksp-card-img"><img src="assets/ekspedisi/sicepat-ekspres.png" alt="SiCepat Express" loading="lazy" onerror="__ekspFail(this)"></span><span class="eksp-card-label">SiCepat</span></button>
+ <button type="button" class="eksp-card" data-eksp="Indah Cargo"><span class="eksp-card-img"><img src="assets/ekspedisi/indah-cargo.png" alt="Indah Cargo" loading="lazy" onerror="__ekspFail(this)"></span><span class="eksp-card-label">Indah Cargo</span></button>
+ </div>
  </div>
  <div>
  <label for="newMetode" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1.5">Metode Pembayaran *</label>

@@ -719,12 +719,31 @@ window.handleNewsletterSubmit = function (form) {
  input.value = '';
 };
 
+/* Grid logo ekspedisi <-> <select id="newEkspedisi"> (select tetap jadi satu-satunya sumber data,
+ supaya validateCheckoutForm() & submitOrder() tidak perlu diubah sama sekali). */
+function initEkspedisiPicker() {
+ var sel = document.getElementById('newEkspedisi'), picker = document.getElementById('ekspedisiPicker');
+ if (!sel || !picker) return;
+ picker.addEventListener('click', function (e) {
+ var btn = e.target.closest('.eksp-card'); if (!btn) return;
+ sel.value = btn.getAttribute('data-eksp');
+ sel.dispatchEvent(new Event('change', { bubbles: true }));
+ picker.querySelectorAll('.eksp-card').forEach(function (c) { c.classList.toggle('is-selected', c === btn); });
+ });
+ sel.addEventListener('change', function () {
+ picker.querySelectorAll('.eksp-card').forEach(function (c) {
+ c.classList.toggle('is-selected', c.getAttribute('data-eksp') === sel.value);
+ });
+ });
+}
+
 /* ============ 15. INISIALISASI ============ */
 document.addEventListener('DOMContentLoaded', function () {
  var loader = document.getElementById('loader');
  if (loader) { loader.style.opacity = '0'; setTimeout(function () { loader.style.display = 'none'; }, 700); }
  initTextAnimations();
  initCookieConsent();
+ initEkspedisiPicker();
  updateWishlistUI();
  renderRecentlyViewed();
  buildFilterChips();
