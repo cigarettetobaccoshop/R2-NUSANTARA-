@@ -425,6 +425,7 @@ function renderRecentlyViewed() {
 window.openQuickView = function (id) {
  var p = allProducts.find(function (x) { return x.id === id; }); if (!p) return;
  trackRecentlyViewed(p.id);
+ try { history.replaceState(null, '', location.pathname + '?p=' + encodeURIComponent(p.id)); } catch (e) {}
  var t = document.getElementById('qvTitle'), pr = document.getElementById('qvPrice'), b = document.getElementById('qvBadge'), i = document.getElementById('qvId'), d = document.getElementById('qvDesc');
  if (t) t.textContent = p.name;
  if (pr) pr.innerHTML = formatRupiah(p.price) + '<span class="text-xs text-slate-400 font-sans font-medium">/slop</span>';
@@ -442,6 +443,8 @@ window.openQuickView = function (id) {
  wb.innerHTML = '<i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart"></i>';
  wb.onclick = function () { toggleWishlistItem(p.id); var now = isWishlisted(p.id); wb.classList.toggle('is-active', now); wb.innerHTML = '<i class="fa-' + (now ? 'solid' : 'regular') + ' fa-heart"></i>'; };
  }
+ var sb = document.getElementById('qvShareBtn');
+ if (sb) sb.onclick = function () { copyToClipboard(location.href, 'Link produk'); };
  var o = document.getElementById('quickViewOverlay'), m = document.getElementById('quickViewModal');
  if (o) { o.classList.remove('hidden'); setTimeout(function () { o.classList.add('overlay-enter'); }, 10); }
  if (m) setTimeout(function () { m.classList.add('modal-enter'); }, 10);
@@ -453,6 +456,7 @@ window.closeQuickView = function () {
  if (m) m.classList.remove('modal-enter');
  setTimeout(function () { if (o) o.classList.add('hidden'); }, 300);
  document.body.style.overflow = '';
+ try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
 };
 
 /* ============ 9B. LEGAL MODAL ============ */
@@ -816,6 +820,11 @@ document.addEventListener('DOMContentLoaded', function () {
  var cObs = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { animateCounter(en.target); cObs.unobserve(en.target); } }); }, { threshold: 0.5 });
  document.querySelectorAll('.stat-counter').forEach(function (el) { cObs.observe(el); });
  var cy = document.getElementById('copyrightYear'); if (cy) cy.textContent = new Date().getFullYear();
+
+ var deepLinkId = new URLSearchParams(location.search).get('p');
+ if (deepLinkId && allProducts.some(function (x) { return x.id === deepLinkId; })) {
+ setTimeout(function () { openQuickView(deepLinkId); }, 900);
+ }
 
  var CIRC = 113.1;
  window.addEventListener('scroll', function () {
