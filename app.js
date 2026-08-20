@@ -775,6 +775,21 @@ window.runHeaderSearch = function () {
  si.dispatchEvent(new Event('input', { bubbles: true }));
  setTimeout(function () { si.focus(); }, 500);
 };
+/* Glass Capsule Dock — indicator bergeser magnetis ke item yang di-tap */
+function initDockNav() {
+ var dock = document.querySelector('.mb-dock'), indicator = document.getElementById('mbDockIndicator');
+ if (!dock || !indicator) return;
+ var items = Array.prototype.slice.call(dock.querySelectorAll('.mb-nav-item'));
+ function setActive(idx) {
+ items.forEach(function (el, i) { el.classList.toggle('is-active', i === idx); });
+ indicator.style.transform = 'translateX(' + (idx * 100) + '%)';
+ }
+ items.forEach(function (el, idx) {
+ el.addEventListener('click', function () { setActive(idx); });
+ });
+ setActive(0);
+}
+
 function initHeaderSearch() {
  var hi = document.getElementById('headerSearchInput');
  if (!hi) return;
@@ -805,6 +820,7 @@ document.addEventListener('DOMContentLoaded', function () {
  initCookieConsent();
  initEkspedisiPicker();
  initHeaderSearch();
+ initDockNav();
  updateWishlistUI();
  renderRecentlyViewed();
  buildFilterChips();

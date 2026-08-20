@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R2 Nusantara | Cigarette Tobacco Shop</title>
+<title>R2 Nusantara | Distributor Rokok Grosir Premium Malang — Bayar Setelah Resi</title>
 <meta name="description" content="Distributor rokok grosir resmi Malang. 233 merek ready stock, gratis ongkir min 1 bal, bayar setelah resi keluar, gudang fisik terverifikasi.">
 <link rel="icon" type="image/png" href="assets/logo/logo.png">
 <link rel="apple-touch-icon" href="assets/logo/logo.png">
@@ -825,11 +825,14 @@ tailwind.config = {
 
 <!-- ============ MOBILE BOTTOM NAVIGATION ============ -->
 <nav class="mobile-bottom-nav lg:hidden" aria-label="Navigasi Mobile">
- <a href="#beranda" class="mb-nav-item"><i class="fa-solid fa-house"></i><span>Beranda</span></a>
- <a href="#produk" class="mb-nav-item"><i class="fa-solid fa-shop"></i><span>Katalog</span></a>
- <button onclick="toggleCart()" class="mb-nav-item mb-nav-cart" aria-label="Keranjang"><i class="fa-solid fa-cart-shopping"></i><span id="mbCartBadge" class="mb-nav-badge hidden">0</span><span>Keranjang</span></button>
- <button onclick="toggleWishlistSidebar()" class="mb-nav-item" aria-label="Wishlist"><i class="fa-solid fa-heart"></i><span id="mbWishBadge" class="mb-nav-badge hidden">0</span><span>Wishlist</span></button>
- <a href="https://wa.me/6285715905079" target="_blank" rel="noopener" class="mb-nav-item"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
+ <div class="mb-dock">
+ <a href="#beranda" class="mb-nav-item" data-nav="beranda"><i class="fa-solid fa-house"></i><span>Beranda</span></a>
+ <a href="#produk" class="mb-nav-item" data-nav="produk"><i class="fa-solid fa-shop"></i><span>Katalog</span></a>
+ <button onclick="toggleCart()" class="mb-nav-item mb-nav-cart" data-nav="cart" aria-label="Keranjang"><i class="fa-solid fa-cart-shopping"></i><span id="mbCartBadge" class="mb-nav-badge hidden">0</span><span>Keranjang</span></button>
+ <button onclick="toggleWishlistSidebar()" class="mb-nav-item" data-nav="wishlist" aria-label="Wishlist"><i class="fa-solid fa-heart"></i><span id="mbWishBadge" class="mb-nav-badge hidden">0</span><span>Wishlist</span></button>
+ <a href="https://wa.me/6285715905079" target="_blank" rel="noopener" class="mb-nav-item" data-nav="wa"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
+ <div id="mbDockIndicator" class="mb-dock-indicator"></div>
+ </div>
 </nav>
 <div id="scrollProgress" class="fixed bottom-6 left-6 z-40 opacity-0 pointer-events-none hidden lg:block w-11 h-11">
  <svg width="44" height="44" viewBox="0 0 44 44">
