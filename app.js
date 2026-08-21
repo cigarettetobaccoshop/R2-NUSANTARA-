@@ -220,18 +220,88 @@ function getProcessedProducts() {
  });
  return r;
 }
-function generateProductPlaceholder(name, size, uid) {
- var w = size === 'small' ? 40 : 240, h = size === 'small' ? 40 : 160, fs = size === 'small' ? 9 : 15;
+function generateProductPlaceholder(name, size, uid, category) {
  var gid = 'grad' + uid + size;
- var safe = escapeHtml(name.length > (size === 'small' ? 6 : 18) ? name.slice(0, size === 'small' ? 6 : 18) + '…' : name);
- var wm = size === 'medium'
- ? '<image href="assets/logo/watermark.png" x="' + (w - 86) + '" y="' + (h - 62) + '" width="74" height="52" opacity="0.09" preserveAspectRatio="xMidYMid meet"></image>'
- : '';
- return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">' +
- '<defs><linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#eff6ff"/><stop offset="100%" stop-color="#bfdbfe"/></linearGradient></defs>' +
- '<rect width="' + w + '" height="' + h + '" fill="url(#' + gid + ')" rx="8"/>' +
- '<circle cx="' + (w * 0.85) + '" cy="' + (h * 0.2) + '" r="' + (h * 0.35) + '" fill="#0F3D6E" opacity="0.12"/>' + wm +
- '<text x="' + (w / 2) + '" y="' + (h / 2) + '" font-family="Inter, sans-serif" font-size="' + fs + '" font-weight="700" fill="#1e3a5f" text-anchor="middle" dominant-baseline="middle">' + safe + '</text></svg>';
+ var isResmi = category === 'resmi';
+ var brandWord = isResmi ? 'RESMI' : 'R2';
+
+ /* Versi kecil (thumbnail tabel/recently-viewed): cukup dark badge + wordmark, detail penuh tak muat */
+ if (size === 'small') {
+ var w = 40, h = 40;
+ return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+ '<defs><linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#26282b"/><stop offset="100%" stop-color="#0c0d0e"/></linearGradient></defs>' +
+ '<rect width="' + w + '" height="' + h + '" fill="url(#' + gid + ')" rx="7"/>' +
+ '<rect x="6" y="6" width="' + (w - 12) + '" height="' + (h - 12) + '" rx="3" fill="none" stroke="#8A96A8" stroke-width="1" opacity="0.35"/>' +
+ '<text x="' + (w / 2) + '" y="' + (h / 2 - 1) + '" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#e8ebef" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">' + brandWord + '</text>' +
+ '<text x="' + (w / 2) + '" y="' + (h / 2 + 10) + '" font-family="Inter,sans-serif" font-size="4" font-weight="700" fill="#8A96A8" text-anchor="middle" letter-spacing="1">NUSANTARA</text></svg>';
+ }
+
+ /* Versi medium (kartu katalog): mockup kemasan lengkap */
+ var w = 240, h = 240;
+ var safeName = escapeHtml(name.length > 20 ? name.slice(0, 20) + '…' : name).toUpperCase();
+ var filterLabel = isResmi ? 'RESMI FILTER' : 'R2 FILTER';
+
+ /* Pola watermark berulang di background (grid teks miring, opacity rendah) */
+ var tiles = '';
+ for (var row = 0; row < 6; row++) {
+ for (var col = 0; col < 3; col++) {
+ var tx = col * 95 + (row % 2 === 0 ? 0 : 40);
+ var ty = row * 42 + 20;
+ tiles += '<text x="' + tx + '" y="' + ty + '" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#ffffff" opacity="0.04" transform="rotate(-18 ' + tx + ' ' + ty + ')">' + brandWord + '</text>';
+ }
+ }
+
+ /* Barcode mockup: batang vertikal lebar acak tapi konsisten (berbasis uid) */
+ var seed = 0;
+ for (var c = 0; c < uid.length; c++) seed = (seed * 31 + uid.charCodeAt(c)) >>> 0;
+ var bars = '', bx = 68;
+ for (var bi = 0; bi < 26; bi++) {
+ var bw = 1 + ((seed >> (bi % 24)) & 1) + (((seed >> (bi % 16)) & 1) ? 1 : 0);
+ if ((seed >> (bi % 8)) & 1) bars += '<rect x="' + bx + '" y="0" width="' + bw + '" height="14" fill="#c8cdd4"/>';
+ bx += bw + 1.6;
+ }
+
+ return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+ '<defs>' +
+ '<linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#28292c"/><stop offset="55%" stop-color="#17181a"/><stop offset="100%" stop-color="#0a0a0b"/></linearGradient>' +
+ '<linearGradient id="pack' + gid + '" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f4f5f6"/><stop offset="100%" stop-color="#d7dade"/></linearGradient>' +
+ '</defs>' +
+ '<rect width="' + w + '" height="' + h + '" fill="url(#' + gid + ')"/>' +
+ '<g>' + tiles + '</g>' +
+ /* Silhouette kemasan */
+ '<rect x="76" y="14" width="88" height="212" rx="6" fill="url(#pack' + gid + ')" stroke="#9aa0a8" stroke-width="0.75"/>' +
+ /* Kotak health warning */
+ '<rect x="86" y="24" width="68" height="30" rx="2" fill="#ffffff" stroke="#1a1a1a" stroke-width="0.6"/>' +
+ '<text x="120" y="32" font-family="Inter,sans-serif" font-size="4.2" font-weight="800" fill="#111" text-anchor="middle" letter-spacing="0.4">HEALTH WARNINGS</text>' +
+ '<path d="M92 46 l3.2 -5.6 l3.2 5.6 z" fill="none" stroke="#111" stroke-width="0.8"/><text x="95.2" y="45.3" font-family="Inter,sans-serif" font-size="4.5" fill="#111" text-anchor="middle" font-weight="800">!</text>' +
+ '<rect x="103" y="40" width="9" height="9" fill="#111"/><rect x="105" y="42" width="2" height="2" fill="#fff"/><rect x="108.5" y="42" width="1.5" height="1.5" fill="#fff"/><rect x="105" y="45.5" width="1.5" height="1.5" fill="#fff"/>' +
+ /* Teks peringatan */
+ '<text x="120" y="65" font-family="Inter,sans-serif" font-size="5.4" font-weight="800" fill="#1a1a1a" text-anchor="middle">PERINGATAN:</text>' +
+ '<text x="120" y="72" font-family="Inter,sans-serif" font-size="5.4" font-weight="800" fill="#1a1a1a" text-anchor="middle">MEROKOK MEMBUNUHMU</text>' +
+ '<text x="120" y="79" font-family="Inter,sans-serif" font-size="4" font-weight="500" fill="#555" text-anchor="middle" letter-spacing="0.3">WARNING: SMOKING KILLS</text>' +
+ /* Logo besar R2 NUSANTARA */
+ '<text x="120" y="132" font-family="Georgia, serif" font-size="30" font-weight="800" fill="#1a2530" text-anchor="middle" letter-spacing="1">R2</text>' +
+ '<text x="120" y="145" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#3a4a5c" text-anchor="middle" letter-spacing="3">NUSANTARA</text>' +
+ '<rect x="98" y="150" width="44" height="1" fill="#8A96A8"/>' +
+ /* Label filter dinamis R2/RESMI + nama produk */
+ '<rect x="79" y="158" width="82" height="15" fill="' + (isResmi ? '#7a1f1f' : '#1a2530') + '"/>' +
+ '<text x="120" y="168" font-family="Inter,sans-serif" font-size="6.5" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="1">' + filterLabel + '</text>' +
+ '<text x="120" y="185" font-family="Inter,sans-serif" font-size="6" font-weight="700" fill="#2a2a2a" text-anchor="middle">' + safeName + '</text>' +
+ /* Barcode */
+ '<g transform="translate(0,208)">' + bars + '</g>' +
+ '<text x="120" y="232" font-family="Inter,sans-serif" font-size="3.4" font-weight="600" fill="#7a828c" text-anchor="middle" letter-spacing="0.5">233 VARIAN</text>' +
+ /* Pola sisi kiri-kanan R2 kecil vertikal, konsisten dengan referensi */
+ '<text x="30" y="30" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="30" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="30" y="110" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="30" y="150" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="30" y="190" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="198" y="30" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="198" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="198" y="110" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="198" y="150" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '<text x="198" y="190" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ '</svg>';
 }
 function buildCardActions(p) {
  var q = getCartQty(p.id);
@@ -260,7 +330,7 @@ function buildProductCardHTML(p, idx) {
  var wishBtn = '<button onclick="toggleWishlistItem(\'' + p.id + '\', event)" data-wish-heart="' + p.id + '" class="mp-wish-btn' + (wl ? ' is-active' : '') + '" aria-label="Wishlist"><i class="fa-' + (wl ? 'solid' : 'regular') + ' fa-heart"></i></button>';
  var retail = retailPrice(p.price);
  var savingsPct = Math.max(1, Math.round((1 - p.price / retail) * 100));
- var ph = generateProductPlaceholder(p.name, 'medium', p.id);
+ var ph = generateProductPlaceholder(p.name, 'medium', p.id, p.category);
  return '<div class="mp-card card-glow card-enter' + (isResmi ? ' mp-card-resmi' : '') + '" style="animation-delay:' + (idx * 40) + 'ms" data-pid="' + p.id + '">' +
  '<div class="mp-card-media">' + ribbonHTML + wishBtn + '<div class="mp-card-img">' + ph + '</div></div>' +
  '<div class="mp-card-body">' +
@@ -279,7 +349,7 @@ function buildProductRowHTML(p, idx) {
  var catBadge = isResmi
  ? '<span class="mp-row-tag mp-tag-resmi"><i class="fa-solid fa-certificate"></i> RESMI · SEG ' + p.segment + '</span>'
  : '<span class="mp-row-tag mp-tag-r2"><i class="fa-solid fa-fire-flame-curved"></i> R2 · ' + getR2Tier(p.price).toUpperCase() + '</span>';
- var thumb = '<div class="mp-row-thumb">' + generateProductPlaceholder(p.name, 'small', p.id) + '</div>';
+ var thumb = '<div class="mp-row-thumb">' + generateProductPlaceholder(p.name, 'small', p.id, p.category) + '</div>';
  return '<div class="mp-row' + (isResmi ? ' is-resmi' : '') + '" style="animation-delay:' + (idx * 25) + 'ms" data-pid="' + p.id + '">' +
  '<div class="mp-row-main">' + thumb + '<div class="min-w-0">' +
  (ribbon ? '<span class="mp-row-ribbon mp-ribbon-' + ribbon.cls + '">' + ribbon.label + '</span>' : '') +
@@ -417,7 +487,7 @@ function renderRecentlyViewed() {
  if (!items.length) { wrap.classList.add('hidden'); return; }
  wrap.classList.remove('hidden');
  row.innerHTML = items.map(function (p) {
- return '<button onclick="openQuickView(\'' + p.id + '\')" class="recent-chip" aria-label="Lihat ' + escapeHtml(p.name) + '"><span class="recent-chip-thumb">' + generateProductPlaceholder(p.name, 'small', p.id) + '</span><span class="recent-chip-name">' + escapeHtml(p.name) + '</span><span class="recent-chip-price">' + formatRupiah(p.price) + '</span></button>';
+ return '<button onclick="openQuickView(\'' + p.id + '\')" class="recent-chip" aria-label="Lihat ' + escapeHtml(p.name) + '"><span class="recent-chip-thumb">' + generateProductPlaceholder(p.name, 'small', p.id, p.category) + '</span><span class="recent-chip-name">' + escapeHtml(p.name) + '</span><span class="recent-chip-price">' + formatRupiah(p.price) + '</span></button>';
  }).join('');
 }
 
@@ -426,6 +496,8 @@ window.openQuickView = function (id) {
  var p = allProducts.find(function (x) { return x.id === id; }); if (!p) return;
  trackRecentlyViewed(p.id);
  try { history.replaceState(null, '', location.pathname + '?p=' + encodeURIComponent(p.id)); } catch (e) {}
+ var imgWrap = document.getElementById('qvImageWrap');
+ if (imgWrap) imgWrap.innerHTML = generateProductPlaceholder(p.name, 'medium', p.id, p.category);
  var t = document.getElementById('qvTitle'), pr = document.getElementById('qvPrice'), b = document.getElementById('qvBadge'), i = document.getElementById('qvId'), d = document.getElementById('qvDesc');
  if (t) t.textContent = p.name;
  if (pr) pr.innerHTML = formatRupiah(p.price) + '<span class="text-xs text-slate-400 font-sans font-medium">/slop</span>';
