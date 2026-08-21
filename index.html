@@ -490,27 +490,27 @@ tailwind.config = {
  <h2 data-word-reveal class="section-title">Pertanyaan Umum.</h2>
  </div>
  <div class="space-y-3">
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Apa itu sistem"Bayar Setelah Resi Keluar"?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">Pembayaran baru dilakukan setelah barang masuk ekspedisi dan resi terbit. 100% anti penipuan.</div>
  </details>
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Berapa minimal order untuk gratis ongkir?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">Minimal 1 bal (20 slop), bisa campur merek.</div>
  </details>
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Bagaimana alur pemesanannya?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">Pilih merek, masukkan ke keranjang, checkout, lalu admin konfirmasi via WhatsApp.</div>
  </details>
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Ekspedisi apa saja yang tersedia?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">JNE, J&amp;T, SiCepat Express, Indah Cargo.</div>
  </details>
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Berapa total pilihan merek?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">Total 233 merek — 167 R2, 66 Resmi.</div>
  </details>
- <details class="faq-item bg-white rounded-2xl border border-slate-200 p-5 fade-on-scroll">
+ <details class="faq-item glass-surface rounded-2xl p-5 fade-on-scroll">
  <summary class="flex items-center justify-between cursor-pointer list-none"><span class="font-bold text-sm text-deep">Di mana lokasi gudang fisik R2 Nusantara?</span><i class="fa-solid fa-plus faq-icon text-gold"></i></summary>
  <div class="faq-content text-sm text-slate-500">Gudang pusat kami berada di Kota Malang, Jawa Timur. Lihat peta di bagian <a href="#lokasi" class="text-gold font-bold">Lokasi Gudang</a> atau konfirmasi via WhatsApp untuk jadwal kunjungan mitra.</div>
  </details>
@@ -640,7 +640,7 @@ tailwind.config = {
 
 <!-- ============ CART SIDEBAR ============ -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
-<aside id="cartSidebar" role="dialog" aria-modal="true" aria-label="Keranjang Belanja" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+<aside id="cartSidebar" role="dialog" aria-modal="true" aria-label="Keranjang Belanja" class="fixed top-0 right-0 h-full w-full max-w-md glass-surface-strong z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
  <div class="p-5 border-b border-slate-100 flex items-center justify-between">
  <h3 class="font-serif font-bold text-deep"><i class="fa-solid fa-cart-shopping text-gold mr-2"></i>Draft Pesanan</h3>
  <button onclick="toggleCart()" class="w-9 h-9 rounded-xl bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Tutup"><i class="fa-solid fa-xmark text-sm"></i></button>
@@ -654,7 +654,7 @@ tailwind.config = {
 
 <!-- ============ WISHLIST SIDEBAR ============ -->
 <div id="wishlistOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] hidden opacity-0 transition-opacity duration-300" onclick="toggleWishlistSidebar()"></div>
-<aside id="wishlistSidebar" role="dialog" aria-modal="true" aria-label="Wishlist" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+<aside id="wishlistSidebar" role="dialog" aria-modal="true" aria-label="Wishlist" class="fixed top-0 right-0 h-full w-full max-w-md glass-surface-strong z-[71] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
  <div class="p-5 border-b border-slate-100 flex items-center justify-between">
  <h3 class="font-serif font-bold text-deep"><i class="fa-solid fa-heart text-red-400 mr-2"></i>Wishlist</h3>
  <button onclick="toggleWishlistSidebar()" class="w-9 h-9 rounded-xl bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Tutup"><i class="fa-solid fa-xmark text-sm"></i></button>
@@ -696,7 +696,7 @@ tailwind.config = {
 
 <!-- ============ CHECKOUT MODAL ============ -->
 <div id="checkoutModalOverlay" class="fixed inset-0 z-[85] bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeCheckoutModal()"></div>
-<div id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout" class="fixed left-1/2 top-1/2 z-[86] w-[95%] max-w-2xl max-h-[90vh] overflow-y-auto -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 pointer-events-none transition-all duration-300 bg-white rounded-3xl shadow-2xl">
+<div id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout" class="fixed left-1/2 top-1/2 z-[86] w-[95%] max-w-2xl max-h-[90vh] overflow-y-auto -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 pointer-events-none transition-all duration-300 glass-surface-strong rounded-3xl shadow-2xl">
  <div class="p-6 sm:p-8">
  <div class="flex items-center justify-between mb-8">
  <h3 class="font-serif font-extrabold text-xl text-deep"><i class="fa-solid fa-clipboard-check text-gold mr-2"></i>Checkout</h3>
