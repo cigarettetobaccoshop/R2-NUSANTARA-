@@ -220,7 +220,10 @@ function getProcessedProducts() {
  });
  return r;
 }
+var __placeholderCache = {};
 function generateProductPlaceholder(name, size, uid, category) {
+ var cacheKey = uid + '|' + size + '|' + category;
+ if (__placeholderCache[cacheKey]) return __placeholderCache[cacheKey];
  var gid = 'grad' + uid + size;
  var isResmi = category === 'resmi';
  var brandWord = isResmi ? 'RESMI' : 'R2';
@@ -228,12 +231,14 @@ function generateProductPlaceholder(name, size, uid, category) {
  /* Versi kecil (thumbnail tabel/recently-viewed): cukup dark badge + wordmark, detail penuh tak muat */
  if (size === 'small') {
  var w = 40, h = 40;
- return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+ var svgSmall = '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
  '<defs><linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#26282b"/><stop offset="100%" stop-color="#0c0d0e"/></linearGradient></defs>' +
  '<rect width="' + w + '" height="' + h + '" fill="url(#' + gid + ')" rx="7"/>' +
  '<rect x="6" y="6" width="' + (w - 12) + '" height="' + (h - 12) + '" rx="3" fill="none" stroke="#8A96A8" stroke-width="1" opacity="0.35"/>' +
  '<text x="' + (w / 2) + '" y="' + (h / 2 - 1) + '" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#e8ebef" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">' + brandWord + '</text>' +
  '<text x="' + (w / 2) + '" y="' + (h / 2 + 10) + '" font-family="Inter,sans-serif" font-size="4" font-weight="700" fill="#8A96A8" text-anchor="middle" letter-spacing="1">NUSANTARA</text></svg>';
+ __placeholderCache[cacheKey] = svgSmall;
+ return svgSmall;
  }
 
  /* Versi medium (kartu katalog): mockup kemasan lengkap */
@@ -241,27 +246,35 @@ function generateProductPlaceholder(name, size, uid, category) {
  var safeName = escapeHtml(name.length > 20 ? name.slice(0, 20) + '…' : name).toUpperCase();
  var filterLabel = isResmi ? 'RESMI FILTER' : 'R2 FILTER';
 
- /* Pola watermark berulang di background (grid teks miring, opacity rendah) */
+ /* Pola watermark berulang di background (grid teks miring, opacity rendah) — dihemat jadi 8 elemen, tampilan tetap sama karena opacity sangat tipis */
  var tiles = '';
- for (var row = 0; row < 6; row++) {
- for (var col = 0; col < 3; col++) {
- var tx = col * 95 + (row % 2 === 0 ? 0 : 40);
- var ty = row * 42 + 20;
- tiles += '<text x="' + tx + '" y="' + ty + '" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#ffffff" opacity="0.04" transform="rotate(-18 ' + tx + ' ' + ty + ')">' + brandWord + '</text>';
+ for (var row = 0; row < 4; row++) {
+ for (var col = 0; col < 2; col++) {
+ var tx = col * 140 + (row % 2 === 0 ? 0 : 60);
+ var ty = row * 62 + 30;
+ tiles += '<text x="' + tx + '" y="' + ty + '" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#ffffff" opacity="0.04" transform="rotate(-18 ' + tx + ' ' + ty + ')">' + brandWord + '</text>';
  }
  }
 
  /* Barcode mockup: batang vertikal lebar acak tapi konsisten (berbasis uid) */
  var seed = 0;
  for (var c = 0; c < uid.length; c++) seed = (seed * 31 + uid.charCodeAt(c)) >>> 0;
- var bars = '', bx = 68;
- for (var bi = 0; bi < 26; bi++) {
+ var bars = '', bx = 74;
+ for (var bi = 0; bi < 16; bi++) {
  var bw = 1 + ((seed >> (bi % 24)) & 1) + (((seed >> (bi % 16)) & 1) ? 1 : 0);
  if ((seed >> (bi % 8)) & 1) bars += '<rect x="' + bx + '" y="0" width="' + bw + '" height="14" fill="#c8cdd4"/>';
- bx += bw + 1.6;
+ bx += bw + 2.4;
  }
 
- return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+ /* Pola sisi kiri-kanan R2 kecil vertikal via loop (6 titik, dari sebelumnya 10 baris manual) */
+ var sidePattern = '';
+ [30, 198].forEach(function (sx) {
+ [30, 110, 190].forEach(function (sy) {
+ sidePattern += '<text x="' + sx + '" y="' + sy + '" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>';
+ });
+ });
+
+ var result = '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
  '<defs>' +
  '<linearGradient id="' + gid + '" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#28292c"/><stop offset="55%" stop-color="#17181a"/><stop offset="100%" stop-color="#0a0a0b"/></linearGradient>' +
  '<linearGradient id="pack' + gid + '" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f4f5f6"/><stop offset="100%" stop-color="#d7dade"/></linearGradient>' +
@@ -290,18 +303,11 @@ function generateProductPlaceholder(name, size, uid, category) {
  /* Barcode */
  '<g transform="translate(0,208)">' + bars + '</g>' +
  '<text x="120" y="232" font-family="Inter,sans-serif" font-size="3.4" font-weight="600" fill="#7a828c" text-anchor="middle" letter-spacing="0.5">233 VARIAN</text>' +
- /* Pola sisi kiri-kanan R2 kecil vertikal, konsisten dengan referensi */
- '<text x="30" y="30" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="30" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="30" y="110" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="30" y="150" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="30" y="190" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="198" y="30" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="198" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="198" y="110" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="198" y="150" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
- '<text x="198" y="190" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#8A96A8" opacity="0.3">' + brandWord + '</text>' +
+ /* Pola sisi kiri-kanan R2 kecil vertikal (dihemat jadi loop 6 titik dari sebelumnya 10 baris manual) */
+ sidePattern +
  '</svg>';
+ __placeholderCache[cacheKey] = result;
+ return result;
 }
 function buildCardActions(p) {
  var q = getCartQty(p.id);
